@@ -3,12 +3,99 @@
  */
 package CurrencyConverter;
 
+import java.util.Scanner;
+
 public class App {
-    public String getGreeting() {
-        return "Hello world.";
+    //                               USD       AUD        EURO        POUND     SGD
+    static double [][] rates  =    {{ 1     ,  1.46    ,  0.9     ,   0.8    ,  1.38  }, // Usd to USD, AUD,...
+                                    { 0.69  ,  1       ,  0.62    ,   0.56   ,  0.95  }, // AUD to USD, AUD ....
+                                    { 1.11  ,  1.61    ,  1       ,   0.9    ,  1.52  }, // EURO to USD, AUD ...
+                                    { 1.24  ,  1.8     ,  1.12    ,   1      ,  1.70  },
+                                    { 0.73  ,  1.06    ,  0.66    ,   0.59   ,  1     }};
+
+    static void showGreeting(){
+        String greeting =   "********************************************************\n" +
+                            "********************************************************\n" +
+                            "****************** Currency Converter ******************\n" +
+                            "********************************************************\n" +
+                            "********************************************************\n";
+        System.out.println(greeting);
     }
 
-    public static void main(String[] args) {
-        System.out.println(new App().getGreeting());
+    static void showExitGreeting(){
+        String greeting =   "********************************************************\n" +
+                            "********************************************************\n" +
+                            "************************* BYE **************************\n" +
+                            "********************************************************\n" +
+                            "********************************************************\n";
+        System.out.println(greeting);
     }
+
+
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+
+        showGreeting();
+
+        while (true){
+            System.out.println("Select From Currency: (USD, AUD, EURO, POUND, SGD)[CASE INSENSITIVE] ");
+            String stringFrom = input.nextLine();
+
+            if(stringFrom.toLowerCase().equals("exit")){
+                showExitGreeting();
+                break;
+            }
+            index from = findIndex(stringFrom);
+
+            if(from == null){
+                continue;
+            }
+            System.out.println("Select TO Currency: (USD, AUD, EURO, POUND, SGD) [CASE INSENSITIVE]");
+            String stringTo = input.nextLine();
+
+            index to = findIndex(stringTo);
+
+            if(to == null){
+                continue;
+            }
+
+            System.out.println(String.format("How much %s you want to convert To %s ? :", from, to));
+
+            double fromAmount = input.nextDouble();
+
+            double answer = fromAmount*rates[from.getIdx()][to.getIdx()];
+
+            System.out.println(String.format(" %.2f %s is %.2f %s.\n",fromAmount, from ,answer , to));
+
+            input.nextLine();
+        }
+
+
+    }
+
+    public static index findIndex(String string){
+        switch (string.toLowerCase()){
+            case "usd": return index.USD;
+            case "aud": return index.AUD;
+            case "euro": return index.EURO;
+            case "pound": return index.POUND;
+            default:
+                System.out.println("PLEASE SELECT A VALID CURRENCY!!");
+                return null;
+        }
+    }
+
+    enum index{
+        USD(0), AUD(1), EURO(2), POUND(3), SGD(4);
+
+        private int idx;
+        index(int i){
+            idx = i;
+        }
+
+        public int getIdx() {
+            return idx;
+        }
+    }
+
 }
