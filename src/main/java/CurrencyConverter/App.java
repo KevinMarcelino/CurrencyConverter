@@ -3,6 +3,7 @@
  */
 package CurrencyConverter;
 
+
 import java.util.Scanner;
 
 public class App {
@@ -38,6 +39,7 @@ public class App {
         showGreeting();
 
         while (true){
+			
             System.out.println("Select From Currency: (USD, AUD, EURO, POUND, SGD)[CASE INSENSITIVE] ");
             String stringFrom = input.nextLine();
 
@@ -58,16 +60,24 @@ public class App {
             if(to == null){
                 continue;
             }
+			
+			
 
             System.out.println(String.format("How much %s you want to convert To %s ? :", from, to));
-
-            double fromAmount = input.nextDouble();
-
+			
+			
+            String result = input.nextLine();
+			try{
+			double fromAmount=Double.parseDouble(result);
             double answer = fromAmount*rates[from.getIdx()][to.getIdx()];
 
             System.out.println(String.format(" %.2f %s is %.2f %s.\n",fromAmount, from ,answer , to));
-
-            input.nextLine();
+			}
+			catch(Exception e){
+				System.out.println("PLEASE SELECT A VALID NUMBER!!!");
+            //input.nextLine();
+			
+			}
         }
 
 
@@ -79,7 +89,7 @@ public class App {
             case "aud": return index.AUD;
             case "euro": return index.EURO;
             case "pound": return index.POUND;
-            case "sgd": return index.SGD;
+			case "sgd": return index.SGD;
             default:
                 System.out.println("PLEASE SELECT A VALID CURRENCY!!");
                 return null;
