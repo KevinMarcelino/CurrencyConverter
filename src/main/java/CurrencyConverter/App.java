@@ -7,13 +7,13 @@ import java.util.Scanner;
 
 public class App {
     //                               USD       AUD        EURO        POUND     SGD
-    static double [][] rates  =    {{ 1     ,  1.46    ,  0.9     ,   0.8    ,  1.38  }, // Usd to USD, AUD,...
+    private static double [][] rates  =    {{ 1     ,  1.46    ,  0.9     ,   0.8    ,  1.38  }, // Usd to USD, AUD,...
                                     { 0.69  ,  1       ,  0.62    ,   0.56   ,  0.95  }, // AUD to USD, AUD ....
                                     { 1.11  ,  1.61    ,  1       ,   0.9    ,  1.52  }, // EURO to USD, AUD ...
                                     { 1.24  ,  1.8     ,  1.12    ,   1      ,  1.70  },
                                     { 0.73  ,  1.06    ,  0.66    ,   0.59   ,  1     }};
 
-    static void showGreeting(){
+     private static void showGreeting(){
         String greeting =   "********************************************************\n" +
                             "********************************************************\n" +
                             "****************** Currency Converter ******************\n" +
@@ -22,7 +22,7 @@ public class App {
         System.out.println(greeting);
     }
 
-    static void showExitGreeting(){
+    private static void showExitGreeting(){
         String greeting =   "********************************************************\n" +
                             "********************************************************\n" +
                             "************************* BYE **************************\n" +
@@ -32,18 +32,15 @@ public class App {
     }
 
 
-    public static void main(String[] args) {
+    private static void driver(){
         Scanner input = new Scanner(System.in);
-
-        showGreeting();
 
         while (true){
             System.out.println("Select From Currency: (USD, AUD, EURO, POUND, SGD)[CASE INSENSITIVE] ");
             String stringFrom = input.nextLine();
 
             if(stringFrom.toLowerCase().equals("exit")){
-                showExitGreeting();
-                break;
+                return;
             }
             index from = findIndex(stringFrom);
 
@@ -69,11 +66,18 @@ public class App {
 
             input.nextLine();
         }
+    }
 
+    public static void main(String[] args) {
+
+        showGreeting();
+        driver();
+        showExitGreeting();
 
     }
 
-    public static index findIndex(String string){
+
+    private static index findIndex(String string){
         switch (string.toLowerCase()){
             case "usd": return index.USD;
             case "aud": return index.AUD;
