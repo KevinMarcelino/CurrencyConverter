@@ -6,14 +6,14 @@ package CurrencyConverter;
 import java.util.Scanner;
 
 public class App {
-    //                               USD       AUD        EURO        POUND     SGD
-    static double [][] rates  =    {{ 1     ,  1.46    ,  0.9     ,   0.8    ,  1.38  }, // Usd to USD, AUD,...
-                                    { 0.69  ,  1       ,  0.62    ,   0.56   ,  0.95  }, // AUD to USD, AUD ....
-                                    { 1.11  ,  1.61    ,  1       ,   0.9    ,  1.52  }, // EURO to USD, AUD ...
-                                    { 1.24  ,  1.8     ,  1.12    ,   1      ,  1.70  },
-                                    { 0.73  ,  1.06    ,  0.66    ,   0.59   ,  1     }};
+    //                                       USD       AUD        EURO        POUND     SGD
+    private static double [][] rates  =     {{ 1     ,  1.46    ,  0.9     ,   0.8    ,  1.38  }, // Usd to USD, AUD,...
+                                             { 0.69  ,  1       ,  0.62    ,   0.56   ,  0.95  }, // AUD to USD, AUD ....
+                                             { 1.11  ,  1.61    ,  1       ,   0.9    ,  1.52  }, // EURO to USD, AUD ...
+                                             { 1.24  ,  1.8     ,  1.12    ,   1      ,  1.70  },
+                                             { 0.73  ,  1.06    ,  0.66    ,   0.59   ,  1     }};
 
-    static void showGreeting(){
+    private static void showGreeting(){
         String greeting =   "********************************************************\n" +
                             "********************************************************\n" +
                             "****************** Currency Converter ******************\n" +
@@ -22,7 +22,7 @@ public class App {
         System.out.println(greeting);
     }
 
-    static void showExitGreeting(){
+    private static void showExitGreeting(){
         String greeting =   "********************************************************\n" +
                             "********************************************************\n" +
                             "************************* BYE **************************\n" +
@@ -32,24 +32,43 @@ public class App {
     }
 
 
-    public static void main(String[] args) {
+    private static void driver(){
         Scanner input = new Scanner(System.in);
-
-        showGreeting();
 
         while (true){
             System.out.println("Select From Currency: (USD, AUD, EURO, POUND, SGD)[CASE INSENSITIVE] ");
             String stringFrom = input.nextLine();
+            String[] stringLength = stringFrom.split("\\s+");
+            index currency1 = null;
+            index currency2 = null;
+            index currency3 = null;
+            index from = null;
 
-            if(stringFrom.toLowerCase().equals("exit")){
-                showExitGreeting();
-                break;
-            }
-            index from = findIndex(stringFrom);
 
-            if(from == null){
-                continue;
+            if(stringLength.length == 3) {
+                currency1 =  findIndex(stringLength[0]);
+                if(currency1 == null) {
+                    continue;
+                }
+                currency2 =  findIndex(stringLength[1]);
+                if(currency2 == null) {
+                    continue;
+                }
+                currency3 =  findIndex(stringLength[2]);
+                if(currency3 == null) {
+                    continue;
+                }
+            } else if(stringLength.length == 1) {
+                if(stringFrom.toLowerCase().equals("exit")){
+                    return;
+                }
+                from = findIndex(stringFrom.trim());
+
+                if(from == null){
+                    continue;
+                }
             }
+
             System.out.println("Select TO Currency: (USD, AUD, EURO, POUND, SGD) [CASE INSENSITIVE]");
             String stringTo = input.nextLine();
 
@@ -59,21 +78,50 @@ public class App {
                 continue;
             }
 
-            System.out.println(String.format("How much %s you want to convert To %s ? :", from, to));
 
-            double fromAmount = input.nextDouble();
+            if(stringLength.length == 1) {
+                System.out.println(String.format("How much %s you want to convert To %s ? :", from, to));
+                double moneyAmount = input.nextDouble();
+                double answer = moneyAmount*rates[from.getIdx()][to.getIdx()];
+                System.out.println(String.format(" %.2f %s is %.2f %s.\n",moneyAmount, from ,answer , to));
+            } else if(stringLength.length == 3){
+                System.out.println(String.format("How much %s, %s and %s do you want to convert To %s ? (Please enter the amount in the order you entered the currency):",currency1 ,currency2 ,currency3 ,to));
+                String moneyAmount = input.nextLine();
+                String[] moneyAmountList = moneyAmount.split("\\s+");
+                if(moneyAmountList.length != 3) {
+                    System.out.println("Please enter 3 amounts!!!\n");
+                    continue;
+                } else {
+                    double currency1Amount =  Double.parseDouble(moneyAmountList[0]);
+                    double currency2Amount =  Double.parseDouble(moneyAmountList[1]);
+                    double currency3Amount =  Double.parseDouble(moneyAmountList[2]);
+                    double answer = currency1Amount*rates[currency1.getIdx()][to.getIdx()] + currency2Amount*rates[currency2.getIdx()][to.getIdx()] + currency3Amount*rates[currency3.getIdx()][to.getIdx()];
+                    System.out.println(String.format("The sum of %.2f %s, %.2f %s and %.2f %s is %.2f %s.\n",currency1Amount, currency1, currency2Amount, currency2, currency3Amount, currency3, answer, to));
+                }
 
-            double answer = fromAmount*rates[from.getIdx()][to.getIdx()];
 
-            System.out.println(String.format(" %.2f %s is %.2f %s.\n",fromAmount, from ,answer , to));
+            }
+            System.out.println("Would you like to make another conversion? Y or N");
+            String anotherOne = input.next();
+            if(anotherOne.toUpperCase().equals("N")) {
+                return;
+            }
 
             input.nextLine();
-        }
 
+        }
+    }
+
+    public static void main(String[] args) {
+
+        showGreeting();
+        driver();
+        showExitGreeting();
 
     }
 
-    public static index findIndex(String string){
+
+    private static index findIndex(String string){
         switch (string.toLowerCase()){
             case "usd": return index.USD;
             case "aud": return index.AUD;
