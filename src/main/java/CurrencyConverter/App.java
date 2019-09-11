@@ -81,7 +81,7 @@ public class App {
             case "pound": return index.POUND;
             case "sgd": return index.SGD;
             default:
-                System.out.println("PLEASE SELECT A VALID CURRENCY!!");
+                System.out.println("PLEASE SELECT A VALID CURRENCY!!\n");
                 return null;
         }
     }
