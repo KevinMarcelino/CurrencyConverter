@@ -1,7 +1,10 @@
+
+import java.util.Scanner;
+import java.util.*;
 import java.util.Scanner;
 
 public class App {
-
+    static Map<String, String> UsernamesAndPasswords = new HashMap<String, String>();
     static Scanner input = new Scanner(System.in);
     //                                       USD       AUD        EURO        POUND     SGD
     private static double [][] rates  =     {{ 1     ,  1.46    ,  0.9     ,   0.8    ,  1.38  }, // Usd to USD, AUD,...
@@ -30,7 +33,10 @@ public class App {
 
     private static void accVerification(String account){
         if(account.equals("admin")){
+            
             adminAcc();
+            
+           
         }
         else{
             userAcc();
@@ -41,11 +47,27 @@ public class App {
         String identity;
         while(true) {
             System.out.println("Who are you? (ADMIN / USER)");
-            identity = input.nextLine();
-            identity.toLowerCase();
-            if(identity.equals("admin")||identity.equals("user")){
+            String identityInput = input.nextLine();
+            identity=identityInput.toLowerCase();
+            if(identity.equals("user")){
                 break;
-            }else{
+            }
+            else if(identity.equals("admin")){
+                System.out.print("Enter a Username: ");
+                String Username=input.nextLine();
+                System.out.print("Enter Password: ");
+                String Password=input.nextLine();
+                if (UsernamesAndPasswords.containsKey(Username) && UsernamesAndPasswords.containsValue(Password)){
+                    break;
+                }
+                 if(UsernamesAndPasswords.containsKey(Username)==false){
+                System.out.println("Incorrect Username");
+                }
+             if(UsernamesAndPasswords.containsValue(Password)==false){
+                System.out.println("Incorrect Password");
+                }
+            }
+            else{
                 System.out.println("Invalid input.");
                 System.out.println("");
             }
@@ -209,7 +231,7 @@ public class App {
     }
 
     public static void main(String[] args) {
-
+        UsernamesAndPasswords.put("John","Fox");
         showGreeting();
         accVerification(whoAreYou());
         showExitGreeting();
