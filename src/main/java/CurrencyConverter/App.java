@@ -10,53 +10,31 @@ public class App {
     static Scanner input = new Scanner(System.in);
     //                                       USD       AUD        EURO        POUND     SGD
     private static double [][] rates  =     {{ 1     ,  1.46    ,  0.9     ,   0.8    ,  1.38  }, // Usd to USD, AUD,...
-            { 0.69  ,  1       ,  0.62    ,   0.56   ,  0.95  }, // AUD to USD, AUD ....
-            { 1.11  ,  1.61    ,  1       ,   0.9    ,  1.52  }, // EURO to USD, AUD ...
-            { 1.24  ,  1.8     ,  1.12    ,   1      ,  1.70  },
-            { 0.73  ,  1.06    ,  0.66    ,   0.59   ,  1     }};
+                                            { 0.69  ,  1       ,  0.62    ,   0.56   ,  0.95  }, // AUD to USD, AUD ....
+                                            { 1.11  ,  1.61    ,  1       ,   0.9    ,  1.52  }, // EURO to USD, AUD ...
+                                            { 1.24  ,  1.8     ,  1.12    ,   1      ,  1.70  },
+                                            { 0.73  ,  1.06    ,  0.66    ,   0.59   ,  1     }};
 
     private static void showGreeting(){
         String greeting =   "********************************************************\n" +
-                "********************************************************\n" +
-                "****************** Currency Converter ******************\n" +
-                "********************************************************\n" +
-                "********************************************************\n";
+                            "********************************************************\n" +
+                            "****************** Currency Converter ******************\n" +
+                            "********************************************************\n" +
+                            "********************************************************\n";
         System.out.println(greeting);
     }
 
     private static void showExitGreeting(){
         String greeting =   "********************************************************\n" +
-                "********************************************************\n" +
-                "************************* BYE **************************\n" +
-                "********************************************************\n" +
-                "********************************************************\n";
+                            "********************************************************\n" +
+                            "************************* BYE **************************\n" +
+                            "********************************************************\n" +
+                            "********************************************************\n";
         System.out.println(greeting);
     }
 
-    private static void accVerification(String account){
-        if(account.equals("admin")){
-            adminAcc();
-        }
-        else{
-            userAcc();
-        }
-    }
 
-    private static String whoAreYou(){
-        String identity;
-        while(true) {
-            System.out.println("Who are you? (ADMIN / USER)");
-            identity = input.nextLine();
-            identity.toLowerCase();
-            if(identity.equals("admin")||identity.equals("user")){
-                break;
-            }else{
-                System.out.println("Invalid input.");
-                System.out.println("");
-            }
-        }
-        return identity;
-    }
+
 
     private static void updateCurrency(){
         while(true) {
@@ -66,15 +44,16 @@ public class App {
             if (stringFrom.toLowerCase().equals("exit")) {
                 return;
             }
-            index from = findIndex(stringFrom);
+            CurrenciesIndex from = findIndex(stringFrom);
 
             if (from == null) {
                 continue;
             }
+
             System.out.println("Select TO Currency: (USD, AUD, EURO, POUND, SGD) [CASE INSENSITIVE]");
             String stringTo = input.nextLine();
 
-            index to = findIndex(stringTo);
+            CurrenciesIndex to = findIndex(stringTo);
 
             if (to == null) {
                 continue;
@@ -134,16 +113,70 @@ public class App {
         }
     }
 
+    private double sum(){
+        System.out.println("How many currencies you want to sum up? ");
+        int x= input.nextInt(); input.nextLine();
+
+        for(int i = 0; i <= x; i++){
+            System.out.printf(String.format("Enter the %d currency and the amount", i));
+            String[] currncyList = input.nextLine().split(" ");
+            CurrenciesIndex currenciesIndex = findIndex(currncyList[0]);
+
+        }
+
+
+
+
+    }
+
+
+    private CurrenciesIndex fromCurrency(){
+        CurrenciesIndex fromCurrency;
+        do{
+            System.out.println("Select From Currency: (USD, AUD, EURO, POUND, SGD)[CASE INSENSITIVE] ");
+            String inputString = input.nextLine();
+
+            if(inputString.toLowerCase().contains("exit")){
+                return null;
+            }
+            else if (inputString.toLowerCase().contains("sum")){
+
+            }
+
+            fromCurrency = findIndex(inputString);
+        }
+        while (fromCurrency== null);
+
+        return fromCurrency;
+    }
+
+    private CurrenciesIndex toCurrency(){
+        CurrenciesIndex fromCurrency;
+        do{
+            System.out.println("Select To Currency: (USD, AUD, EURO, POUND, SGD)[CASE INSENSITIVE] ");
+            String inputString = input.nextLine();
+
+            if(inputString.toLowerCase().contains("exit")){
+                return null;
+            }
+
+            fromCurrency = findIndex(inputString);
+        }
+        while (fromCurrency== null);
+
+        return fromCurrency;
+    }
+
     private static void driver(){
 
         while (true){
             System.out.println("Select From Currency: (USD, AUD, EURO, POUND, SGD)[CASE INSENSITIVE] ");
             String stringFrom = input.nextLine();
             String[] stringLength = stringFrom.split("\\s+");
-            index currency1 = null;
-            index currency2 = null;
-            index currency3 = null;
-            index from = null;
+            CurrenciesIndex currency1 = null;
+            CurrenciesIndex currency2 = null;
+            CurrenciesIndex currency3 = null;
+            CurrenciesIndex from = null;
 
 
             if(stringLength.length == 3) {
@@ -173,7 +206,7 @@ public class App {
             System.out.println("Select TO Currency: (USD, AUD, EURO, POUND, SGD) [CASE INSENSITIVE]");
             String stringTo = input.nextLine();
 
-            index to = findIndex(stringTo);
+            CurrenciesIndex to = findIndex(stringTo);
 
             if(to == null){
                 continue;
@@ -216,30 +249,30 @@ public class App {
     public static void main(String[] args) {
 
         showGreeting();
-        accVerification(whoAreYou());
+        driver();
         showExitGreeting();
 
     }
 
 
-    private static index findIndex(String string){
+    private static CurrenciesIndex findIndex(String string){
         switch (string.toLowerCase()){
-            case "usd": return index.USD;
-            case "aud": return index.AUD;
-            case "euro": return index.EURO;
-            case "pound": return index.POUND;
-            case "sgd": return index.SGD;
+            case "usd": return CurrenciesIndex.USD;
+            case "aud": return CurrenciesIndex.AUD;
+            case "euro": return CurrenciesIndex.EURO;
+            case "pound": return CurrenciesIndex.POUND;
+            case "sgd": return CurrenciesIndex.SGD;
             default:
                 System.out.println("PLEASE SELECT A VALID CURRENCY!!\n");
                 return null;
         }
     }
 
-    enum index{
+    enum CurrenciesIndex {
         USD(0), AUD(1), EURO(2), POUND(3), SGD(4);
 
         private int idx;
-        index(int i){
+        CurrenciesIndex(int i){
             idx = i;
         }
 
