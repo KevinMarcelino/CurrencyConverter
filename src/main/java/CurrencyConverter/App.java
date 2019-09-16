@@ -3,8 +3,6 @@
  */
 package CurrencyConverter;
 
-import javafx.util.Pair;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -19,22 +17,24 @@ public class App {
                                             { 1.24  ,  1.8     ,  1.12    ,   1      ,  1.70  },
                                             { 0.73  ,  1.06    ,  0.66    ,   0.59   ,  1     }};
 
-    private static void showGreeting(){
+    public static String showGreeting(){
         String greeting =   "********************************************************\n" +
                             "********************************************************\n" +
                             "****************** Currency Converter ******************\n" +
                             "********************************************************\n" +
                             "********************************************************\n";
         System.out.println(greeting);
+        return greeting;
     }
 
-    private static void showExitGreeting(){
+    public static String showExitGreeting(){
         String greeting =   "********************************************************\n" +
                             "********************************************************\n" +
                             "************************* BYE **************************\n" +
                             "********************************************************\n" +
                             "********************************************************\n";
         System.out.println(greeting);
+        return greeting;
     }
 
 
@@ -118,12 +118,13 @@ public class App {
     }
 
 
-    private static void wrongCurrencyMessage(String currency){
-        System.out.println(String.format("%s is not a valid currency", currency ));
-        System.out.println("Please enter again! ");
+    public static String wrongCurrencyMessage(String currency){
+        String message = String.format("%s is not a valid currency %.2f \nPlease enter again!", currency );
+        System.out.println(message);
+        return message;
     }
 
-    private double sum(){
+    public double sum(){
         List<Pair<CurrenciesIndex,Double>> sumList = new ArrayList<>();
 
         System.out.println("How many currencies you want to sum up? ");
@@ -165,7 +166,8 @@ public class App {
     }
 
 
-    private static CurrenciesIndex fromCurrency(){
+
+    public static CurrenciesIndex fromCurrency(){
         CurrenciesIndex fromCurrency;
         do{
             System.out.println("Select From Currency: (USD, AUD, EURO, POUND, SGD)[CASE INSENSITIVE] ");
@@ -177,7 +179,6 @@ public class App {
             else if (inputString.toLowerCase().contains("sum")){
 
             }
-
             fromCurrency = findIndex(inputString);
         }
         while (fromCurrency== null);
@@ -185,7 +186,7 @@ public class App {
         return fromCurrency;
     }
 
-    private static CurrenciesIndex toCurrency(){
+    public static CurrenciesIndex toCurrency(){
         CurrenciesIndex fromCurrency;
         do{
             System.out.println("Select To Currency: (USD, AUD, EURO, POUND, SGD)[CASE INSENSITIVE] ");
@@ -203,12 +204,27 @@ public class App {
         return fromCurrency;
     }
 
+
+    public static double amountToConvert(CurrenciesIndex from, CurrenciesIndex to){
+        System.out.println(String.format("How much %s you want to convert to %s?", from, to));
+        return input.nextDouble();
+    }
+
+    public static double convert(CurrenciesIndex from, CurrenciesIndex to, double amount){
+
+        double answer = amount*rates[from.getIdx()][to.getIdx()];
+        System.out.println(String.format("%.2f %s is %.2f %s to!\n", amount, from, answer, to));
+        return answer;
+    }
+
     private static void driver(){
 
         while (true){
 
-            fromCurrency();
-            toCurrency();
+            CurrenciesIndex from = fromCurrency();
+            CurrenciesIndex to = toCurrency();
+            double amount = amountToConvert(from, to);
+            convert(from, to,amount);
 
             System.out.println("Would you like to make another conversion? Y or N");
             String anotherOne = input.next();
@@ -217,7 +233,6 @@ public class App {
             }
 
             input.nextLine();
-
         }
     }
 
