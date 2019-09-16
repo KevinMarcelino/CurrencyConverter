@@ -11,4 +11,13 @@ class AppTest {
         App classUnderTest = new App();
         assertNotNull(classUnderTest.getGreeting(), "app should have a greeting");
     }
+    
+    @Test
+    public void showGreeting1() {
+        int i = 1;
+        int j =1;
+        assertEquals(i, j,"message");
+    }
 }
+
+
