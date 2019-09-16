@@ -124,35 +124,37 @@ public class App {
         return message;
     }
 
-    public double sum(){
+    public static double sum(){
         List<Pair<CurrenciesIndex,Double>> sumList = new ArrayList<>();
 
         System.out.println("How many currencies you want to sum up? ");
         int x= input.nextInt(); input.nextLine();
 
-        for(int i = 0; i <= x; i++){
+        for(int i = 0; i < x; i++){
             CurrenciesIndex currenciesIndex;
             double amount;
 
             do{
-                System.out.printf(String.format("Enter the %d currency and the amount", i));
-                String[] currncyList = input.nextLine().split(" ");
+                System.out.println(String.format("Enter the %d currency and the amount", i+1));
+                String[] currncyList = input.nextLine().split(" ");            // Handle length of array < 1
                 currenciesIndex = findIndex(currncyList[0]);
                 if(currenciesIndex == null){
                     wrongCurrencyMessage(currncyList[0]);
                 }
-                amount = Double.parseDouble(currncyList[0]);                                     // HANDLE
+                amount = Double.parseDouble(currncyList[1]);                        // HANDLE
             }
             while (currenciesIndex ==null);
 
             sumList.add(new Pair<>(currenciesIndex,amount));
         }
 
-        System.out.printf("Enter the currency would like to convert to ");
+        System.out.printf("Enter the currency would like to convert to:\n");
 
         CurrenciesIndex toCurrency = toCurrency();
 
-        return sumHelper(sumList, toCurrency);
+        double answer =  sumHelper(sumList, toCurrency);
+        System.out.println("Answer is "+ answer);
+        return answer;
     }
 
     private static double sumHelper (List<Pair<CurrenciesIndex, Double>> sumList, CurrenciesIndex currency){
@@ -217,16 +219,36 @@ public class App {
         return answer;
     }
 
+    public static String menu(){
+        System.out.println("Would you like to convert or sum the money?");
+        String command = input.nextLine();
+
+        switch (command.toLowerCase()){
+            case "convert": return "convert";
+            case "sum": return "sum";
+            default:{
+                System.out.println("Invalid Input Please try again!");
+                return menu();
+            }
+        }
+    }
+
+
     private static void driver(){
 
         while (true){
+            String todo = menu();
+            if (todo.equals("convert")) {
+                CurrenciesIndex from = fromCurrency();
+                CurrenciesIndex to = toCurrency();
+                double amount = amountToConvert(from, to);
+                convert(from, to,amount);
+            }
+            else{
+                sum();
+            }
 
-            CurrenciesIndex from = fromCurrency();
-            CurrenciesIndex to = toCurrency();
-            double amount = amountToConvert(from, to);
-            convert(from, to,amount);
-
-            System.out.println("Would you like to make another conversion? Y or N");
+            System.out.println("Would you like to make another conversion or Sum? Y or N");
             String anotherOne = input.next();
             if(anotherOne.toUpperCase().equals("N")) {
                 return;
