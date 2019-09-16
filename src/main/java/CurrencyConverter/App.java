@@ -1,5 +1,5 @@
 
-import java.util.Scanner;
+package CurrencyConverter;
 import java.util.*;
 import java.util.Scanner;
 
