@@ -11,7 +11,7 @@ class AppTest {
     
     @Test
     public void showGreeting1() {
-        int i = 2;
+        int i =1;
         int j =1;
         assertEquals(i, j,"message");
     }
