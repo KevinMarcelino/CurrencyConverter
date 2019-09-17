@@ -149,17 +149,17 @@ class AppTest {
         System.setIn(stdin);
     }
 
-    @Test
-    void testingMenu3(){
-        String data = "exit";
-        InputStream stdin = System.in;
-
-        System.setIn(new ByteArrayInputStream(data.getBytes()));
-        App.input = new Scanner(System.in);
-
-        assertEquals(App.menu(),"exit");
-        System.setIn(stdin);
-    }
+//    @Test
+//    void testingMenu3(){
+//        String data = "exit";
+//        InputStream stdin = System.in;
+//
+//        System.setIn(new ByteArrayInputStream(data.getBytes()));
+//        App.input = new Scanner(System.in);
+//
+//        assertEquals(App.menu(),"exit");
+//        System.setIn(stdin);
+//    }
 
 //    @Test
 //    void testingMenu4(){
