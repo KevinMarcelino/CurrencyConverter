@@ -4,11 +4,26 @@
 package CurrencyConverter;
 
 import org.junit.jupiter.api.Test;
+
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.util.Scanner;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class AppTest {
-    @Test void appHasAGreeting() {
-        App classUnderTest = new App();
-        assertNotNull(classUnderTest.getGreeting(), "app should have a greeting");
+
+    @Test void testingTest(){
+
+        String data = "in";
+        InputStream stdin = System.in;
+        System.setIn(new ByteArrayInputStream(data.getBytes()));
+
+//        assertSame(App.findIndex("usd"),"USD");
+        assertTrue(App.test());
+        Scanner scanner = new Scanner(System.in);
+        System.setIn(stdin);
+
     }
+
 }

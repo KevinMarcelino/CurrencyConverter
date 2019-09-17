@@ -3,6 +3,8 @@
  */
 package CurrencyConverter;
 
+import com.sun.jdi.event.StepEvent;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -127,6 +129,7 @@ public class App {
         System.out.println("How many currencies you want to sum up? ");
         int x;
         do{
+
             x = input.nextInt(); input.nextLine();
             if(x > 3){
                 System.out.println("The maximum number you can sum is 3\nPlease enter again");
@@ -292,8 +295,13 @@ public class App {
 
     }
 
+    public static boolean test(){
+        String in = input.nextLine();
 
-    private static CurrenciesIndex findIndex(String string){
+        return in.equals("in");
+    }
+
+    public static CurrenciesIndex findIndex(String string){
         switch (string.toLowerCase()){
             case "usd": return CurrenciesIndex.USD;
             case "aud": return CurrenciesIndex.AUD;
