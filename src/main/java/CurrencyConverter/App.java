@@ -246,7 +246,7 @@ public class App {
     }
 
     public static String menu(){
-        System.out.println("Would you like to convert or sum the money? Enter exit to exit. ");
+        System.out.println("Would you like to convert or sum the money? Enter exit to exit.");
         String command = input.nextLine();
 
         switch (command.toLowerCase().strip()){
@@ -261,7 +261,7 @@ public class App {
     }
 
 
-    private static void driver(){
+    public static void driver(){
 
         while (true){
             String todo = menu();
@@ -296,11 +296,6 @@ public class App {
 
     }
 
-    public static boolean test(){
-        String in = input.nextLine();
-
-        return in.equals("in");
-    }
 
     public static CurrenciesIndex findIndex(String string){
         switch (string.toLowerCase()){

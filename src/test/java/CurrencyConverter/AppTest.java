@@ -17,26 +17,31 @@ import static CurrencyConverter.App.sumHelper;
 import static org.junit.jupiter.api.Assertions.*;
 
 class AppTest {
+//    private static String data ="defualt";
+//    private static InputStream stdin = System.in;
+//
+//    @BeforeEach
+//    public void BeforeTest() {
+//        System.setIn(new ByteArrayInputStream(data.getBytes()));
+//        App.input = new Scanner(System.in);
+//    }
+//
+//    @AfterEach
+//    public void AfterTest() {
+//        System.setIn(stdin);
+//    }
 
-    @BeforeEach
-    public void BeforeTest() {
+//     void testingTest() {
+//        String data = "in";
+//        InputStream stdin = System.in;
+//        System.setIn(new ByteArrayInputStream(data.getBytes()));
+//        App.input = new Scanner(System.in);
+//        assertTrue(App.test());
+//        Scanner scanner = new Scanner(System.in);
+//        System.setIn(stdin);
+//    }
 
-    }
 
-    @AfterEach
-    public void AfterTest() {
-
-    }
-
-    @Test void testingTest() {
-        String data = "in";
-        InputStream stdin = System.in;
-        System.setIn(new ByteArrayInputStream(data.getBytes()));
-        App.input = new Scanner(System.in);
-        assertTrue(App.test());
-        Scanner scanner = new Scanner(System.in);
-        System.setIn(stdin);
-    }
 
     @Test void testShowGreeting(){
         String greeting1 = App.showGreeting();
@@ -99,12 +104,16 @@ class AppTest {
     void testingFindCurrencyIndex2(){
         assertEquals(App.findIndex("aud").toString(),"AUD");
     }
+    @Test
+    void testingFindCurrencyIndex3(){
+        assertEquals(App.findIndex("SgD").toString(),"SGD");
+    }
 
     /*
             Testing Enum get ID method
      */
     @Test
-    void testingFindCurrencyIndex3(){
+    void testingFindCurrencyIndex4(){
         assertEquals(App.findIndex("EURO").getIdx(),2);
     }
 
@@ -112,8 +121,55 @@ class AppTest {
             Testing wrong currency input
      */
     @Test
-    void testingFindCurrencyIndex4(){
+    void testingFindCurrencyIndex5(){
         assertNull(App.findIndex("INR"));
     }
 
+    @Test
+    void testingMenu(){
+        String data = "convert";
+        InputStream stdin = System.in;
+
+        System.setIn(new ByteArrayInputStream(data.getBytes()));
+        App.input = new Scanner(System.in);
+
+        assertEquals(App.menu(),"convert");
+        System.setIn(stdin);
+    }
+
+    @Test
+    void testingMenu2(){
+        String data = "sum";
+        InputStream stdin = System.in;
+
+        System.setIn(new ByteArrayInputStream(data.getBytes()));
+        App.input = new Scanner(System.in);
+
+        assertEquals(App.menu(),"sum");
+        System.setIn(stdin);
+    }
+
+    @Test
+    void testingMenu3(){
+        String data = "exit";
+        InputStream stdin = System.in;
+
+        System.setIn(new ByteArrayInputStream(data.getBytes()));
+        App.input = new Scanner(System.in);
+
+        assertEquals(App.menu(),"exit");
+        System.setIn(stdin);
+    }
+
+//    @Test
+//    void testingMenu4(){
+//        String data = "Google\nsum";
+//        InputStream stdin = System.in;
+//
+//        System.setIn(new ByteArrayInputStream(data.getBytes()));
+//        App.input = new Scanner(System.in);
+//
+//        assertNull(App.menu(),"sum");
+//        System.setIn(stdin);
+//    }
 }
