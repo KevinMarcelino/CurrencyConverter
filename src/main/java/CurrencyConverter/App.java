@@ -131,7 +131,7 @@ public class App {
             if(x > 3){
                 System.out.println("The maximum number you can sum is 3\nPlease enter again");
             }
-            else if( x< 0){
+            else if( x <= 0){
                 System.out.println("You have entered an invalid number\nPlease try again");
             }
         }
@@ -245,7 +245,7 @@ public class App {
         System.out.println("Would you like to convert or sum the money? Enter exit to exit. ");
         String command = input.nextLine();
 
-        switch (command.toLowerCase()){
+        switch (command.toLowerCase().strip()){
             case "convert": return "convert";
             case "sum": return "sum";
             case "exit": return "exit";
