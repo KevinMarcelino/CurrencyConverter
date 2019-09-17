@@ -7,13 +7,16 @@ import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
+import static CurrencyConverter.App.sumHelper;
 import static org.junit.jupiter.api.Assertions.*;
 
 class AppTest {
 
-    @Test void testingTest(){
+    @Test void testingTest() {
 
         String data = "in";
         InputStream stdin = System.in;
@@ -23,7 +26,55 @@ class AppTest {
         assertTrue(App.test());
         Scanner scanner = new Scanner(System.in);
         System.setIn(stdin);
+    }
 
+    @Test void testShowGreeting(){
+        String greeting1 = App.showGreeting();
+        String greeting2 = "********************************************************\n" +
+                           "********************************************************\n" +
+                           "****************** Currency Converter ******************\n" +
+                           "********************************************************\n" +
+                           "********************************************************\n";
+        assertEquals(greeting1, greeting2);
+    }
+
+    @Test
+    void testShowExitGreeting() {
+        String exit1 = App.showExitGreeting();
+        String exit2 = "********************************************************\n" +
+                       "********************************************************\n" +
+                       "************************* BYE **************************\n" +
+                       "********************************************************\n" +
+                       "********************************************************\n";
+        assertEquals(exit1, exit2);
+    }
+
+
+    @Test
+    void testWrongCurrencyMessage() {
+        String wrongCurrency = App.wrongCurrencyMessage("Yen");
+        String wrongCurrencyMessage = "Yen is not a valid currency \nPlease enter again!";
+        assertEquals(wrongCurrency, wrongCurrencyMessage);
+    }
+
+
+    @Test
+    void testFromCurrency() {
+    }
+
+    @Test
+    void testToCurrency() {
+    }
+
+    @Test
+    void testSumHelper() {
+        List<Pair<App.CurrenciesIndex, Double>> sumList = new ArrayList<>();
+        sumList.add(new Pair<App.CurrenciesIndex, Double>(App.CurrenciesIndex.USD, 10.0));
+        sumList.add(new Pair<App.CurrenciesIndex, Double>(App.CurrenciesIndex.EURO, 10.0));
+        sumList.add(new Pair<App.CurrenciesIndex, Double>(App.CurrenciesIndex.POUND, 10.0));
+        double sum1 = sumHelper(sumList, App.CurrenciesIndex.AUD);
+        double sum2 = 48.7;
+        assertEquals(sum1, sum2);
     }
 
 }
