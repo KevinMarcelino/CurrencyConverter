@@ -3,8 +3,9 @@
  */
 package CurrencyConverter;
 
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -12,9 +13,37 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import static CurrencyConverter.App.sumHelper;
+import static org.junit.jupiter.api.Assertions.*;
+
 class AppTest {
-    @Test
-    void testShowGreeting() {
+//    private static String data ="defualt";
+//    private static InputStream stdin = System.in;
+//
+//    @BeforeEach
+//    public void BeforeTest() {
+//        System.setIn(new ByteArrayInputStream(data.getBytes()));
+//        App.input = new Scanner(System.in);
+//    }
+//
+//    @AfterEach
+//    public void AfterTest() {
+//        System.setIn(stdin);
+//    }
+
+//     void testingTest() {
+//        String data = "in";
+//        InputStream stdin = System.in;
+//        System.setIn(new ByteArrayInputStream(data.getBytes()));
+//        App.input = new Scanner(System.in);
+//        assertTrue(App.test());
+//        Scanner scanner = new Scanner(System.in);
+//        System.setIn(stdin);
+//    }
+
+
+
+    @Test void testShowGreeting(){
         String greeting1 = App.showGreeting();
         String greeting2 = "********************************************************\n" +
                            "********************************************************\n" +
@@ -86,6 +115,39 @@ class AppTest {
         assertEquals(sum1, sum2);
     }
 
+    /*
+            Testing case sensitiveness
+     */
+    @Test
+    void testingFindCurrencyIndex1(){
+        assertEquals(App.findIndex("USD").toString(),"USD");
+    }
+
+    @Test
+    void testingFindCurrencyIndex2(){
+        assertEquals(App.findIndex("aud").toString(),"AUD");
+    }
+    @Test
+    void testingFindCurrencyIndex3(){
+        assertEquals(App.findIndex("SgD").toString(),"SGD");
+    }
+
+    /*
+            Testing Enum get ID method
+     */
+    @Test
+    void testingFindCurrencyIndex4(){
+        assertEquals(App.findIndex("EURO").getIdx(),2);
+    }
+
+    /*
+            Testing wrong currency input
+     */
+    @Test
+    void testingFindCurrencyIndex5(){
+        assertNull(App.findIndex("INR"));
+    }
+
     @Test
     void testSumHelper2() {
         List<Pair<App.CurrenciesIndex, Double>> sumList = new ArrayList<>();
@@ -107,4 +169,28 @@ class AppTest {
         double sum2 = 2640;
         assertEquals(sum1, sum2);
     }
+
+//    @Test
+//    void testingMenu3(){
+//        String data = "exit";
+//        InputStream stdin = System.in;
+//
+//        System.setIn(new ByteArrayInputStream(data.getBytes()));
+//        App.input = new Scanner(System.in);
+//
+//        assertEquals(App.menu(),"exit");
+//        System.setIn(stdin);
+//    }
+
+//    @Test
+//    void testingMenu4(){
+//        String data = "Google\nsum";
+//        InputStream stdin = System.in;
+//
+//        System.setIn(new ByteArrayInputStream(data.getBytes()));
+//        App.input = new Scanner(System.in);
+//
+//        assertNull(App.menu(),"sum");
+//        System.setIn(stdin);
+//    }
 }
