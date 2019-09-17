@@ -293,7 +293,7 @@ public class App {
     }
 
 
-    private static CurrenciesIndex findIndex(String string){
+    public static CurrenciesIndex findIndex(String string){
         switch (string.toLowerCase()){
             case "usd": return CurrenciesIndex.USD;
             case "aud": return CurrenciesIndex.AUD;
