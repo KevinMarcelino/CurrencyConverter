@@ -3,6 +3,8 @@
  */
 package CurrencyConverter;
 
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayInputStream;
@@ -15,6 +17,16 @@ import static CurrencyConverter.App.sumHelper;
 import static org.junit.jupiter.api.Assertions.*;
 
 class AppTest {
+
+    @BeforeEach
+    public void BeforeTest() {
+
+    }
+
+    @AfterEach
+    public void AfterTest() {
+
+    }
 
     @Test void testingTest() {
         String data = "in";
@@ -39,11 +51,11 @@ class AppTest {
     @Test
     void testShowExitGreeting() {
         String exit1 = App.showExitGreeting();
-        String exit2 = "********************************************************\n" +
-                       "********************************************************\n" +
-                       "************************* BYE **************************\n" +
-                       "********************************************************\n" +
-                       "********************************************************\n";
+            String exit2 = "********************************************************\n" +
+                           "********************************************************\n" +
+                           "************************* BYE **************************\n" +
+                           "********************************************************\n" +
+                           "********************************************************\n";
         assertEquals(exit1, exit2);
     }
 
@@ -73,6 +85,35 @@ class AppTest {
         double sum1 = sumHelper(sumList, App.CurrenciesIndex.AUD);
         double sum2 = 48.7;
         assertEquals(sum1, sum2);
+    }
+
+    /*
+            Testing case sensitiveness
+     */
+    @Test
+    void testingFindCurrencyIndex1(){
+        assertEquals(App.findIndex("USD").toString(),"USD");
+    }
+
+    @Test
+    void testingFindCurrencyIndex2(){
+        assertEquals(App.findIndex("aud").toString(),"AUD");
+    }
+
+    /*
+            Testing Enum get ID method
+     */
+    @Test
+    void testingFindCurrencyIndex3(){
+        assertEquals(App.findIndex("EURO").getIdx(),2);
+    }
+
+    /*
+            Testing wrong currency input
+     */
+    @Test
+    void testingFindCurrencyIndex4(){
+        assertNull(App.findIndex("INR"));
     }
 
 }
