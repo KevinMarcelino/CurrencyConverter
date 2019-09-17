@@ -3,52 +3,72 @@
  */
 package CurrencyConverter;
 
+import com.sun.jdi.event.StepEvent;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 public class App {
 
-    static Controller controller = new Controller();
-
     static Scanner input = new Scanner(System.in);
     //                                       USD       AUD        EURO        POUND     SGD
     private static double [][] rates  =     {{ 1     ,  1.46    ,  0.9     ,   0.8    ,  1.38  }, // Usd to USD, AUD,...
-                                            { 0.69  ,  1       ,  0.62    ,   0.56   ,  0.95  }, // AUD to USD, AUD ....
-                                            { 1.11  ,  1.61    ,  1       ,   0.9    ,  1.52  }, // EURO to USD, AUD ...
-                                            { 1.24  ,  1.8     ,  1.12    ,   1      ,  1.70  },
-                                            { 0.73  ,  1.06    ,  0.66    ,   0.59   ,  1     }};
+            { 0.69  ,  1       ,  0.62    ,   0.56   ,  0.95  }, // AUD to USD, AUD ....
+            { 1.11  ,  1.61    ,  1       ,   0.9    ,  1.52  }, // EURO to USD, AUD ...
+            { 1.24  ,  1.8     ,  1.12    ,   1      ,  1.70  },
+            { 0.73  ,  1.06    ,  0.66    ,   0.59   ,  1     }};
 
     public static String showGreeting(){
         String greeting =   "********************************************************\n" +
-                            "********************************************************\n" +
-                            "****************** Currency Converter ******************\n" +
-                            "********************************************************\n" +
-                            "********************************************************\n";
-        System.out.println(greeting);
+                "********************************************************\n" +
+                "****************** Currency Converter ******************\n" +
+                "********************************************************\n" +
+                "********************************************************\n";
         return greeting;
     }
 
     public static String showExitGreeting(){
         String greeting =   "********************************************************\n" +
-                            "********************************************************\n" +
-                            "************************* BYE **************************\n" +
-                            "********************************************************\n" +
-                            "********************************************************\n";
-        System.out.println(greeting);
+                "********************************************************\n" +
+                "************************* BYE **************************\n" +
+                "********************************************************\n" +
+                "********************************************************\n";
         return greeting;
     }
 
+    public static String whoAreYou(){
+        String identity;
+        while(true) {
+            System.out.println("Who are you? (ADMIN / USER)");
+            identity = input.nextLine();
+            identity.toLowerCase();
+            if(identity.equals("admin")||identity.equals("user")){
+                break;
+            }else{
+                System.out.println("Invalid input.");
+                System.out.println("");
+            }
+        }
+        return identity;
+    }
 
+    public static void accVerification(String account){
+        if(account.equals("admin")){
+            adminAcc();
+        }
+        else{
+            userAcc();
+        }
+    }
 
-
-    private static void updateCurrency(){
+    private static Double updateCurrency(){
         while(true) {
             System.out.println("Select From Currency: (USD, AUD, EURO, POUND, SGD)[CASE INSENSITIVE] ");
             String stringFrom = input.nextLine();
 
-            if (controller.isExit(stringFrom)) {
-                return;
+            if (stringFrom.toLowerCase().equals("exit")) {
+                return null;
             }
             CurrenciesIndex from = findIndex(stringFrom);
 
@@ -75,24 +95,24 @@ public class App {
 
             System.out.println("Would you like update different rate? Y or N");
             String anotherOne = input.next();
-            if(!controller.yesOrNo(anotherOne)) {
-                return;
+            if(anotherOne.toUpperCase().equals("N")) {
+                return null;
             }
             input.nextLine();
         }
     }
 
-    private static void adminAcc(){
+
+    public static void adminAcc(){
         String adminOption;
         while(true){
-            System.out.println("What do you want to do? (Update Currency / Check Rate / exit)");
             adminOption = input.nextLine();
-            if(controller.isExit(adminOption)){
+            if(Controller.isExit(adminOption)){
                 return;
-            }else if(controller.isCheckRate(adminOption)){
+            }else if(adminOption.toLowerCase().equals("check rate")){
                 driver();
                 input.nextLine();
-            }else if(controller.isUpdateCurrency(adminOption)){
+            }else if(adminOption.toLowerCase().equals("update currency")){
                 updateCurrency();
                 input.nextLine();
             }else{
@@ -102,14 +122,14 @@ public class App {
         }
     }
 
-    private static void userAcc(){
+    public static void userAcc(){
         String userOption;
         while(true){
             System.out.println("What do you want to do? (Check Rate / exit)");
             userOption = input.nextLine();
-            if(controller.isExit(userOption)){
+            if(userOption.toLowerCase().equals("exit")){
                 return;
-            }else if(controller.isCheckRate(userOption)){
+            }else if(userOption.toLowerCase().equals("check rate")){
                 driver();
                 input.nextLine();
             }else{
@@ -119,33 +139,9 @@ public class App {
         }
     }
 
-    private static void accVerification(String account){
-        if(account.equals("admin")){
-            adminAcc();
-        }
-        else{
-            userAcc();
-        }
-    }
-
-    private static String whoAreYou(){
-        String identity;
-        while(true) {
-            System.out.println("Who are you? (ADMIN / USER)");
-            identity = input.nextLine();
-            identity.toLowerCase();
-            if(identity.equals("admin")||identity.equals("user")){
-                break;
-            }else{
-                System.out.println("Invalid input.");
-                System.out.println("");
-            }
-        }
-        return identity;
-    }
 
     public static String wrongCurrencyMessage(String currency){
-        String message = String.format("%s is not a valid currency %.2f \nPlease enter again!", currency );
+        String message = String.format("%s is not a valid currency \nPlease enter again!", currency );
         System.out.println(message);
         return message;
     }
@@ -154,22 +150,49 @@ public class App {
         List<Pair<CurrenciesIndex,Double>> sumList = new ArrayList<>();
 
         System.out.println("How many currencies you want to sum up? ");
-        int x= input.nextInt(); input.nextLine();
+        int x;
+        do{
+
+            x = input.nextInt(); input.nextLine();
+            if(x > 3){
+                System.out.println("The maximum number you can sum is 3\nPlease enter again");
+            }
+            else if( x <= 0){
+                System.out.println("You have entered an invalid number\nPlease try again");
+            }
+        }
+        while (x>3|x<0);
+
 
         for(int i = 0; i < x; i++){
-            CurrenciesIndex currenciesIndex;
-            double amount;
+            CurrenciesIndex currenciesIndex = null;
+            double amount = 0;
 
             do{
                 System.out.println(String.format("Enter the %d currency and the amount", i+1));
-                String[] currncyList = input.nextLine().split(" ");            // Handle length of array < 1
-                currenciesIndex = findIndex(currncyList[0]);
-                if(currenciesIndex == null){
-                    wrongCurrencyMessage(currncyList[0]);
+                String[] currencyList = input.nextLine().split(" ");            // Handle length of array < 1
+
+                if(currencyList.length==1){
+                    System.out.println("Invalid input, Please provide with a Currency and Amount!");
+                    continue;
                 }
-                amount = Double.parseDouble(currncyList[1]);                        // HANDLE
+                currenciesIndex = findIndex(currencyList[0]);
+                if(currenciesIndex == null){
+                    System.out.println(wrongCurrencyMessage(currencyList[0]));
+                }
+                try {
+                    amount = Double.parseDouble(currencyList[1]);
+                    if(amount < 0){
+                        System.out.println("Invalid Amount given");
+                        continue;
+                    }
+                }
+                catch (Exception e){
+                    System.out.println("Invalid Amount given.");
+                    continue;
+                }
             }
-            while (currenciesIndex ==null);
+            while (currenciesIndex ==null | amount<0 );
 
             sumList.add(new Pair<>(currenciesIndex,amount));
         }
@@ -183,7 +206,7 @@ public class App {
         return answer;
     }
 
-    private static double sumHelper (List<Pair<CurrenciesIndex, Double>> sumList, CurrenciesIndex currency){
+    public static double sumHelper (List<Pair<CurrenciesIndex, Double>> sumList, CurrenciesIndex currency){
 
         double sum = 0;
 
@@ -201,7 +224,7 @@ public class App {
             System.out.println("Select From Currency: (USD, AUD, EURO, POUND, SGD)[CASE INSENSITIVE] ");
             String inputString = input.nextLine();
 
-            if(controller.isExit(inputString)){
+            if(inputString.toLowerCase().contains("exit")){
                 return null;
             }
             else if (inputString.toLowerCase().contains("sum")){
@@ -220,11 +243,10 @@ public class App {
             System.out.println("Select To Currency: (USD, AUD, EURO, POUND, SGD)[CASE INSENSITIVE] ");
             String inputString = input.nextLine();
 
-            if(controller.isExit(inputString)){
+            if(inputString.toLowerCase().contains("exit")){
                 return null;
             }
 
-            fromCurrency = findIndex(inputString);
             fromCurrency = findIndex(inputString);
         }
         while (fromCurrency== null);
@@ -246,12 +268,13 @@ public class App {
     }
 
     public static String menu(){
-        System.out.println("Would you like to convert or sum the money?");
+        System.out.println("Would you like to convert or sum the money? Enter exit to exit. ");
         String command = input.nextLine();
 
-        switch (command.toLowerCase()){
+        switch (command.toLowerCase().strip()){
             case "convert": return "convert";
             case "sum": return "sum";
+            case "exit": return "exit";
             default:{
                 System.out.println("Invalid Input Please try again!");
                 return menu();
@@ -270,13 +293,16 @@ public class App {
                 double amount = amountToConvert(from, to);
                 convert(from, to,amount);
             }
-            else{
+            else if( todo.equals("sum")){
                 sum();
+            }
+            else if (todo.equals("exit")){
+                return;
             }
 
             System.out.println("Would you like to make another conversion or Sum? Y or N");
             String anotherOne = input.next();
-            if(!controller.yesOrNo(anotherOne)) {
+            if(anotherOne.toUpperCase().equals("N")) {
                 return;
             }
 
@@ -286,14 +312,19 @@ public class App {
 
     public static void main(String[] args) {
 
-        showGreeting();
+        System.out.println(showGreeting());
         accVerification(whoAreYou());
-        showExitGreeting();
+        System.out.println(showExitGreeting());
 
     }
 
+    public static boolean test(){
+        String in = input.nextLine();
 
-    private static CurrenciesIndex findIndex(String string){
+        return in.equals("in");
+    }
+
+    public static CurrenciesIndex findIndex(String string){
         switch (string.toLowerCase()){
             case "usd": return CurrenciesIndex.USD;
             case "aud": return CurrenciesIndex.AUD;
@@ -301,7 +332,7 @@ public class App {
             case "pound": return CurrenciesIndex.POUND;
             case "sgd": return CurrenciesIndex.SGD;
             default:
-                System.out.println("PLEASE SELECT A VALID CURRENCY!!\n");
+                System.out.println("Please select a valid currency!");
                 return null;
         }
     }
