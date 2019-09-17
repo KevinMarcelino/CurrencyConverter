@@ -2,8 +2,8 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <bytecodeTargetLevel>
-      <module name="CurrencyConverter.main" target="11" />
-      <module name="CurrencyConverter.test" target="11" />
+      <module name="CurrencyConverter.main" target="12" />
+      <module name="CurrencyConverter.test" target="12" />
     </bytecodeTargetLevel>
   </component>
 </project>

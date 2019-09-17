@@ -6,9 +6,26 @@ package CurrencyConverter;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
-class AppTest {
-    @Test void appHasAGreeting() {
-        App classUnderTest = new App();
-        assertNotNull(classUnderTest.getGreeting(), "app should have a greeting");
+class AppTest extends App {
+    @Test
+    void testShowGreeting() {
+        String greeting1 = showGreeting();
+        String greeting2 = "********************************************************\n" +
+                           "********************************************************\n" +
+                           "****************** Currency Converter ******************\n" +
+                           "********************************************************\n" +
+                           "********************************************************\n";
+        assertEquals(greeting1, greeting2);
+    }
+
+    @Test
+    void testShowExitGreeting() {
+        String exit1 = showExitGreeting();
+        String exit2 = "********************************************************\n" +
+                       "********************************************************\n" +
+                       "************************* BYE **************************\n" +
+                       "********************************************************\n" +
+                       "********************************************************\n";
+        assertEquals(exit1, exit2);
     }
 }
