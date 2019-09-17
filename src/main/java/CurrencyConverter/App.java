@@ -23,7 +23,6 @@ public class App {
                             "****************** Currency Converter ******************\n" +
                             "********************************************************\n" +
                             "********************************************************\n";
-        System.out.println(greeting);
         return greeting;
     }
 
@@ -33,20 +32,19 @@ public class App {
                             "************************* BYE **************************\n" +
                             "********************************************************\n" +
                             "********************************************************\n";
-        System.out.println(greeting);
         return greeting;
     }
 
 
 
 
-    private static void updateCurrency(){
+    private static Double updateCurrency(){
         while(true) {
             System.out.println("Select From Currency: (USD, AUD, EURO, POUND, SGD)[CASE INSENSITIVE] ");
             String stringFrom = input.nextLine();
 
             if (stringFrom.toLowerCase().equals("exit")) {
-                return;
+                return null;
             }
             CurrenciesIndex from = findIndex(stringFrom);
 
@@ -74,7 +72,7 @@ public class App {
             System.out.println("Would you like update different rate? Y or N");
             String anotherOne = input.next();
             if(anotherOne.toUpperCase().equals("N")) {
-                return;
+                return null;
             }
             input.nextLine();
         }
@@ -119,8 +117,7 @@ public class App {
 
 
     public static String wrongCurrencyMessage(String currency){
-        String message = String.format("%s is not a valid currency \nPlease enter again!", currency );
-        System.out.println(message);
+        String message = String.format("%s is not a valid currency\nPlease enter again!", currency );
         return message;
     }
 
@@ -128,22 +125,48 @@ public class App {
         List<Pair<CurrenciesIndex,Double>> sumList = new ArrayList<>();
 
         System.out.println("How many currencies you want to sum up? ");
-        int x= input.nextInt(); input.nextLine();
+        int x;
+        do{
+            x = input.nextInt(); input.nextLine();
+            if(x > 3){
+                System.out.println("The maximum number you can sum is 3\nPlease enter again");
+            }
+            else if( x< 0){
+                System.out.println("You have entered an invalid number\nPlease try again");
+            }
+        }
+        while (x>3|x<0);
+
 
         for(int i = 0; i < x; i++){
-            CurrenciesIndex currenciesIndex;
-            double amount;
+            CurrenciesIndex currenciesIndex = null;
+            double amount = 0;
 
             do{
                 System.out.println(String.format("Enter the %d currency and the amount", i+1));
-                String[] currncyList = input.nextLine().split(" ");            // Handle length of array < 1
-                currenciesIndex = findIndex(currncyList[0]);
-                if(currenciesIndex == null){
-                    wrongCurrencyMessage(currncyList[0]);
+                String[] currencyList = input.nextLine().split(" ");            // Handle length of array < 1
+
+                if(currencyList.length==1){
+                    System.out.println("Invalid input, Please provide with a Currency and Amount!");
+                    continue;
                 }
-                amount = Double.parseDouble(currncyList[1]);                        // HANDLE
+                currenciesIndex = findIndex(currencyList[0]);
+                if(currenciesIndex == null){
+                    System.out.println(wrongCurrencyMessage(currencyList[0]));
+                }
+                try {
+                    amount = Double.parseDouble(currencyList[1]);
+                    if(amount < 0){
+                        System.out.println("Invalid Amount given");
+                        continue;
+                    }
+                }
+                catch (Exception e){
+                    System.out.println("Invalid Amount given.");
+                    continue;
+                }
             }
-            while (currenciesIndex ==null);
+            while (currenciesIndex ==null | amount<0 );
 
             sumList.add(new Pair<>(currenciesIndex,amount));
         }
@@ -199,7 +222,6 @@ public class App {
             }
 
             fromCurrency = findIndex(inputString);
-            fromCurrency = findIndex(inputString);
         }
         while (fromCurrency== null);
 
@@ -220,12 +242,13 @@ public class App {
     }
 
     public static String menu(){
-        System.out.println("Would you like to convert or sum the money?");
+        System.out.println("Would you like to convert or sum the money? Enter exit to exit. ");
         String command = input.nextLine();
 
         switch (command.toLowerCase()){
             case "convert": return "convert";
             case "sum": return "sum";
+            case "exit": return "exit";
             default:{
                 System.out.println("Invalid Input Please try again!");
                 return menu();
@@ -244,8 +267,11 @@ public class App {
                 double amount = amountToConvert(from, to);
                 convert(from, to,amount);
             }
-            else{
+            else if( todo.equals("sum")){
                 sum();
+            }
+            else if (todo.equals("exit")){
+                return;
             }
 
             System.out.println("Would you like to make another conversion or Sum? Y or N");
@@ -260,9 +286,9 @@ public class App {
 
     public static void main(String[] args) {
 
-        showGreeting();
+        System.out.println(showGreeting());
         driver();
-        showExitGreeting();
+        System.out.println(showExitGreeting());
 
     }
 
@@ -275,7 +301,7 @@ public class App {
             case "pound": return CurrenciesIndex.POUND;
             case "sgd": return CurrenciesIndex.SGD;
             default:
-                System.out.println("PLEASE SELECT A VALID CURRENCY!!\n");
+                System.out.println("Please select a valid currency!");
                 return null;
         }
     }

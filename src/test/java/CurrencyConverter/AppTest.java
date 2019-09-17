@@ -59,4 +59,26 @@ class AppTest extends App {
         double sum2 = 48.7;
         assertEquals(sum1, sum2);
     }
+
+    @Test
+    void testSumHelper2() {
+        List<Pair<CurrenciesIndex, Double>> sumList = new ArrayList<>();
+        sumList.add(new Pair<CurrenciesIndex, Double>(CurrenciesIndex.USD, 0.0));
+        sumList.add(new Pair<CurrenciesIndex, Double>(CurrenciesIndex.EURO, 0.0));
+        sumList.add(new Pair<CurrenciesIndex, Double>(CurrenciesIndex.SGD, 0.0));
+        double sum1 = sumHelper(sumList, CurrenciesIndex.AUD);
+        double sum2 = 0.0;
+        assertEquals(sum1, sum2);
+    }
+
+    @Test
+    void testSumHelper3() {
+        List<Pair<CurrenciesIndex, Double>> sumList = new ArrayList<>();
+        sumList.add(new Pair<CurrenciesIndex, Double>(CurrenciesIndex.USD, 0.0));
+        sumList.add(new Pair<CurrenciesIndex, Double>(CurrenciesIndex.AUD, 0.0));
+        sumList.add(new Pair<CurrenciesIndex, Double>(CurrenciesIndex.POUND, 0.0));
+        double sum1 = sumHelper(sumList, CurrenciesIndex.EURO);
+        double sum2 = 0.0;
+        assertEquals(sum1, sum2);
+    }
 }
