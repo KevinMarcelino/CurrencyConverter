@@ -119,7 +119,7 @@ public class App {
 
 
     public static String wrongCurrencyMessage(String currency){
-        String message = String.format("%s is not a valid currency %.2f \nPlease enter again!", currency );
+        String message = String.format("%s is not a valid currency \nPlease enter again!", currency );
         System.out.println(message);
         return message;
     }

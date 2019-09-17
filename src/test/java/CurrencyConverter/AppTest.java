@@ -28,4 +28,12 @@ class AppTest extends App {
                        "********************************************************\n";
         assertEquals(exit1, exit2);
     }
+
+
+    @Test
+    void testWrongCurrencyMessage() {
+        String wrongCurrency = wrongCurrencyMessage("Yen");
+        String wrongCurrencyMessage = "Yen is not a valid currency \nPlease enter again!";
+        assertEquals(wrongCurrency, wrongCurrencyMessage);
+    }
 }
