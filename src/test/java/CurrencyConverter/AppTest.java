@@ -6,6 +6,9 @@ package CurrencyConverter;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 class AppTest extends App {
     @Test
     void testShowGreeting() {
@@ -35,5 +38,25 @@ class AppTest extends App {
         String wrongCurrency = wrongCurrencyMessage("Yen");
         String wrongCurrencyMessage = "Yen is not a valid currency \nPlease enter again!";
         assertEquals(wrongCurrency, wrongCurrencyMessage);
+    }
+
+
+    @Test
+    void testFromCurrency() {
+    }
+
+    @Test
+    void testToCurrency() {
+    }
+
+    @Test
+    void testSumHelper() {
+        List<Pair<CurrenciesIndex, Double>> sumList = new ArrayList<>();
+        sumList.add(new Pair<CurrenciesIndex, Double>(CurrenciesIndex.USD, 10.0));
+        sumList.add(new Pair<CurrenciesIndex, Double>(CurrenciesIndex.EURO, 10.0));
+        sumList.add(new Pair<CurrenciesIndex, Double>(CurrenciesIndex.POUND, 10.0));
+        double sum1 = sumHelper(sumList, CurrenciesIndex.AUD);
+        double sum2 = 48.7;
+        assertEquals(sum1, sum2);
     }
 }

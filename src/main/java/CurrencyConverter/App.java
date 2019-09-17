@@ -157,7 +157,7 @@ public class App {
         return answer;
     }
 
-    private static double sumHelper (List<Pair<CurrenciesIndex, Double>> sumList, CurrenciesIndex currency){
+    public static double sumHelper (List<Pair<CurrenciesIndex, Double>> sumList, CurrenciesIndex currency){
 
         double sum = 0;
 
