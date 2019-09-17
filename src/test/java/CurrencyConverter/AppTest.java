@@ -65,6 +65,17 @@ class AppTest {
     }
 
     @Test
+    void testSum() {
+        String data1 = "3" + System.getProperty("line.separator") + "usd 1" + System.getProperty("line.separator") + "euro 1" + System.getProperty("line.separator")+ "pound 1" + System.getProperty("line.separator")+ "aud" + System.getProperty("line.separator");
+        InputStream stdin = System.in;
+        System.setIn(new ByteArrayInputStream(data1.getBytes()));
+        App.input = new Scanner(System.in);
+        assertEquals(App.sum(), 4.87);
+        System.setIn(stdin);
+    }
+
+
+    @Test
     void testSumHelper() {
         List<Pair<App.CurrenciesIndex, Double>> sumList = new ArrayList<>();
         sumList.add(new Pair<App.CurrenciesIndex, Double>(App.CurrenciesIndex.USD, 10.0));
