@@ -17,12 +17,10 @@ import static org.junit.jupiter.api.Assertions.*;
 class AppTest {
 
     @Test void testingTest() {
-
         String data = "in";
         InputStream stdin = System.in;
         System.setIn(new ByteArrayInputStream(data.getBytes()));
-
-//        assertSame(App.findIndex("usd"),"USD");
+        App.input = new Scanner(System.in);
         assertTrue(App.test());
         Scanner scanner = new Scanner(System.in);
         System.setIn(stdin);
