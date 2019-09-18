@@ -13,27 +13,27 @@ public class App {
 
     static Scanner input = new Scanner(System.in);
     //                                       USD       AUD        EURO        POUND     SGD
-    private static double [][] rates  =     {{ 1     ,  1.46    ,  0.9     ,   0.8    ,  1.38  }, // Usd to USD, AUD,...
-            { 0.69  ,  1       ,  0.62    ,   0.56   ,  0.95  }, // AUD to USD, AUD ....
-            { 1.11  ,  1.61    ,  1       ,   0.9    ,  1.52  }, // EURO to USD, AUD ...
-            { 1.24  ,  1.8     ,  1.12    ,   1      ,  1.70  },
-            { 0.73  ,  1.06    ,  0.66    ,   0.59   ,  1     }};
+    public static double [][] rates  =     {{ 1     ,  1.46    ,  0.9     ,   0.8    ,  1.38  }, // Usd to USD, AUD,...
+        { 0.69  ,  1       ,  0.62    ,   0.56   ,  0.95  }, // AUD to USD, AUD ....
+        { 1.11  ,  1.61    ,  1       ,   0.9    ,  1.52  }, // EURO to USD, AUD ...
+        { 1.24  ,  1.8     ,  1.12    ,   1      ,  1.70  },
+        { 0.73  ,  1.06    ,  0.66    ,   0.59   ,  1     }};
 
     public static String showGreeting(){
         String greeting =   "********************************************************\n" +
-                "********************************************************\n" +
-                "****************** Currency Converter ******************\n" +
-                "********************************************************\n" +
-                "********************************************************\n";
+            "********************************************************\n" +
+            "****************** Currency Converter ******************\n" +
+            "********************************************************\n" +
+            "********************************************************\n";
         return greeting;
     }
 
     public static String showExitGreeting(){
         String greeting =   "********************************************************\n" +
-                "********************************************************\n" +
-                "************************* BYE **************************\n" +
-                "********************************************************\n" +
-                "********************************************************\n";
+            "********************************************************\n" +
+            "************************* BYE **************************\n" +
+            "********************************************************\n" +
+            "********************************************************\n";
         return greeting;
     }
 
@@ -46,8 +46,7 @@ public class App {
             if(identity.equals("admin")||identity.equals("user")){
                 break;
             }else{
-                System.out.println("Invalid input.");
-                System.out.println("");
+                System.out.println("Invalid input");
             }
         }
         return identity;
@@ -62,13 +61,13 @@ public class App {
         }
     }
 
-    private static Double updateCurrency(){
+    public static void updateCurrency(){
         while(true) {
-            System.out.println("Select From Currency: (USD, AUD, EURO, POUND, SGD)[CASE INSENSITIVE] ");
+            System.out.println("Select From Currency: (USD, AUD, EURO, POUND, SGD)[CASE INSENSITIVE]");
             String stringFrom = input.nextLine();
 
             if (stringFrom.toLowerCase().equals("exit")) {
-                return null;
+                return;
             }
             CurrenciesIndex from = findIndex(stringFrom);
 
@@ -86,7 +85,7 @@ public class App {
             }
 
             System.out.println(String.format("Current rate is %.2f. What is the new rate from %s to %s ?",
-                    rates[from.getIdx()][to.getIdx()], from, to));
+                rates[from.getIdx()][to.getIdx()], from, to));
 
             double newRate = input.nextDouble();
             rates[from.getIdx()][to.getIdx()] = newRate;
@@ -96,7 +95,7 @@ public class App {
             System.out.println("Would you like update different rate? Y or N");
             String anotherOne = input.next();
             if(anotherOne.toUpperCase().equals("N")) {
-                return null;
+                return;
             }
             input.nextLine();
         }
@@ -106,8 +105,9 @@ public class App {
     public static void adminAcc(){
         String adminOption;
         while(true){
+            System.out.println("What do you want to do? (Check Rate / Update Currency / exit)");
             adminOption = input.nextLine();
-            if(Controller.isExit(adminOption)){
+            if(adminOption.toLowerCase().equals("exit")){
                 return;
             }else if(adminOption.toLowerCase().equals("check rate")){
                 driver();
@@ -117,7 +117,6 @@ public class App {
                 input.nextLine();
             }else{
                 System.out.println("Invalid input");
-                System.out.println("");
             }
         }
     }
@@ -134,7 +133,6 @@ public class App {
                 input.nextLine();
             }else{
                 System.out.println("Invalid input");
-                System.out.println("");
             }
         }
     }
