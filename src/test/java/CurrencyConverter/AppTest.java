@@ -362,6 +362,32 @@ class AppTest {
                 "Would you like to convert or sum the money? Enter exit to exit." +System.lineSeparator(), outContent.toString());
     }
 
+    @Test
+    void testingAmountIntakeValidator1(){
+        String data1 = "100.0";
+        InputStream stdin = System.in;
+        System.setIn(new ByteArrayInputStream(data1.getBytes()));
+        App.input = new Scanner(System.in);
+        assertEquals(App.amountIntakerValidator(false), 100.0);
+    }
+
+    @Test
+    void testingAmountIntakeValidator2(){
+        String data1 = "-20.0\n1";
+        InputStream stdin = System.in;
+        System.setIn(new ByteArrayInputStream(data1.getBytes()));
+        App.input = new Scanner(System.in);
+        assertEquals(-20.0,App.amountIntakerValidator(false));
+    }
+
+    @Test
+    void testingAmountIntakeValidator3(){
+        String data1 = "hello\n25";
+        InputStream stdin = System.in;
+        System.setIn(new ByteArrayInputStream(data1.getBytes()));
+        App.input = new Scanner(System.in);
+        assertEquals(25.0,App.amountIntakerValidator(false));
+    }
 
 }
 
