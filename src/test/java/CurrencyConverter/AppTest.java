@@ -114,7 +114,27 @@ class AppTest {
         double sum2 = 48.7;
         assertEquals(sum1, sum2);
     }
+    @Test
+    void testSumHelper2() {
+        List<Pair<App.CurrenciesIndex, Double>> sumList = new ArrayList<>();
+        sumList.add(new Pair<App.CurrenciesIndex, Double>(App.CurrenciesIndex.USD, 0.0));
+        sumList.add(new Pair<App.CurrenciesIndex, Double>(App.CurrenciesIndex.EURO, 0.0));
+        sumList.add(new Pair<App.CurrenciesIndex, Double>(App.CurrenciesIndex.SGD, 0.0));
+        double sum1 = App.sumHelper(sumList, App.CurrenciesIndex.AUD);
+        double sum2 = 0.0;
+        assertEquals(sum1, sum2);
+    }
 
+    @Test
+    void testSumHelper3() {
+        List<Pair<App.CurrenciesIndex, Double>> sumList = new ArrayList<>();
+        sumList.add(new Pair<App.CurrenciesIndex, Double>(App.CurrenciesIndex.USD, 1000.0));
+        sumList.add(new Pair<App.CurrenciesIndex, Double>(App.CurrenciesIndex.AUD, 1000.0));
+        sumList.add(new Pair<App.CurrenciesIndex, Double>(App.CurrenciesIndex.POUND, 1000.0));
+        double sum1 = App.sumHelper(sumList, App.CurrenciesIndex.EURO);
+        double sum2 = 2640;
+        assertEquals(sum1, sum2);
+    }
     /*
             Testing case sensitiveness
      */
@@ -148,28 +168,30 @@ class AppTest {
         assertNull(App.findIndex("INR"));
     }
 
+
     @Test
-    void testSumHelper2() {
-        List<Pair<App.CurrenciesIndex, Double>> sumList = new ArrayList<>();
-        sumList.add(new Pair<App.CurrenciesIndex, Double>(App.CurrenciesIndex.USD, 0.0));
-        sumList.add(new Pair<App.CurrenciesIndex, Double>(App.CurrenciesIndex.EURO, 0.0));
-        sumList.add(new Pair<App.CurrenciesIndex, Double>(App.CurrenciesIndex.SGD, 0.0));
-        double sum1 = App.sumHelper(sumList, App.CurrenciesIndex.AUD);
-        double sum2 = 0.0;
-        assertEquals(sum1, sum2);
+    void testingMenu(){
+        String data = "convert";
+        InputStream stdin = System.in;
+
+        System.setIn(new ByteArrayInputStream(data.getBytes()));
+        App.input = new Scanner(System.in);
+
+        assertEquals(App.menu(),"convert");
+        System.setIn(stdin);
     }
 
     @Test
-    void testSumHelper3() {
-        List<Pair<App.CurrenciesIndex, Double>> sumList = new ArrayList<>();
-        sumList.add(new Pair<App.CurrenciesIndex, Double>(App.CurrenciesIndex.USD, 1000.0));
-        sumList.add(new Pair<App.CurrenciesIndex, Double>(App.CurrenciesIndex.AUD, 1000.0));
-        sumList.add(new Pair<App.CurrenciesIndex, Double>(App.CurrenciesIndex.POUND, 1000.0));
-        double sum1 = App.sumHelper(sumList, App.CurrenciesIndex.EURO);
-        double sum2 = 2640;
-        assertEquals(sum1, sum2);
-    }
+    void testingMenu2(){
+        String data = "sum";
+        InputStream stdin = System.in;
 
+        System.setIn(new ByteArrayInputStream(data.getBytes()));
+        App.input = new Scanner(System.in);
+
+        assertEquals(App.menu(),"sum");
+        System.setIn(stdin);
+    }
 //    @Test
 //    void testingMenu3(){
 //        String data = "exit";
