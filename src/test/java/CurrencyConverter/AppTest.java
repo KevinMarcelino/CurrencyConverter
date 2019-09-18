@@ -186,6 +186,7 @@ class AppTest {
     @Test
     void testingFindCurrencyIndex1() {
         assertEquals(App.findIndex("USD").toString(), "USD");
+
     }
 
     @Test
@@ -296,3 +297,5 @@ class AppTest {
     }
 
 }
+
+
