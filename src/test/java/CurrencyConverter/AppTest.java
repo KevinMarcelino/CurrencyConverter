@@ -23,25 +23,25 @@ class AppTest {
     private final PrintStream originalOut = System.out;
 
     @BeforeEach
-    public void before(){
+    public void before() {
         System.setOut(new PrintStream(outContent));
     }
 
     @AfterEach
-    public void after(){
+    public void after() {
         System.setIn(System.in);
         System.setOut(originalOut);
     }
 
 
-
-    @Test void testShowGreeting(){
+    @Test
+    void testShowGreeting() {
         String greeting1 = App.showGreeting();
         String greeting2 = "********************************************************\n" +
-                           "********************************************************\n" +
-                           "****************** Currency Converter ******************\n" +
-                           "********************************************************\n" +
-                           "********************************************************\n";
+                "********************************************************\n" +
+                "****************** Currency Converter ******************\n" +
+                "********************************************************\n" +
+                "********************************************************\n";
         assertEquals(greeting1, greeting2);
     }
 
@@ -49,10 +49,10 @@ class AppTest {
     void testShowExitGreeting() {
         String exit1 = App.showExitGreeting();
         String exit2 = "********************************************************\n" +
-                       "********************************************************\n" +
-                       "************************* BYE **************************\n" +
-                       "********************************************************\n" +
-                       "********************************************************\n";
+                "********************************************************\n" +
+                "************************* BYE **************************\n" +
+                "********************************************************\n" +
+                "********************************************************\n";
         assertEquals(exit1, exit2);
     }
 
@@ -157,6 +157,7 @@ class AppTest {
         double sum2 = 48.7;
         assertEquals(sum1, sum2);
     }
+
     @Test
     void testSumHelper2() {
         List<Pair<App.CurrenciesIndex, Double>> sumList = new ArrayList<>();
@@ -178,100 +179,120 @@ class AppTest {
         double sum2 = 2640;
         assertEquals(sum1, sum2);
     }
+
     /*
             Testing case sensitiveness
      */
     @Test
-    void testingFindCurrencyIndex1(){
-        assertEquals(App.findIndex("USD").toString(),"USD");
+    void testingFindCurrencyIndex1() {
+        assertEquals(App.findIndex("USD").toString(), "USD");
     }
 
     @Test
-    void testingFindCurrencyIndex2(){
-        assertEquals(App.findIndex("aud").toString(),"AUD");
+    void testingFindCurrencyIndex2() {
+        assertEquals(App.findIndex("aud").toString(), "AUD");
     }
+
     @Test
-    void testingFindCurrencyIndex3(){
-        assertEquals(App.findIndex("SgD").toString(),"SGD");
+    void testingFindCurrencyIndex3() {
+        assertEquals(App.findIndex("SgD").toString(), "SGD");
     }
 
     /*
             Testing Enum get ID method
      */
     @Test
-    void testingFindCurrencyIndex4(){
-        assertEquals(App.findIndex("EURO").getIdx(),2);
+    void testingFindCurrencyIndex4() {
+        assertEquals(App.findIndex("EURO").getIdx(), 2);
     }
 
     /*
             Testing wrong currency input
      */
     @Test
-    void testingFindCurrencyIndex5(){
+    void testingFindCurrencyIndex5() {
         assertNull(App.findIndex("INR"));
     }
 
 
     @Test
-    void testingMenu(){
+    void testingMenu() {
         String data = "convert";
         InputStream stdin = System.in;
 
         System.setIn(new ByteArrayInputStream(data.getBytes()));
         App.input = new Scanner(System.in);
 
-        assertEquals(App.menu(),"convert");
+        assertEquals(App.menu(), "convert");
     }
 
     @Test
-    void testingMenu2(){
+    void testingMenu2() {
         String data = "sum";
         InputStream stdin = System.in;
 
         System.setIn(new ByteArrayInputStream(data.getBytes()));
         App.input = new Scanner(System.in);
 
-        assertEquals(App.menu(),"sum");
+        assertEquals(App.menu(), "sum");
     }
+
     @Test
-    void testingMenu3(){
+    void testingMenu3() {
         String data = "exit";
         InputStream stdin = System.in;
 
         System.setIn(new ByteArrayInputStream(data.getBytes()));
         App.input = new Scanner(System.in);
 
-        assertEquals(App.menu(),"exit");
+        assertEquals(App.menu(), "exit");
     }
 
-//    @Test
-//    void testingMenu4(){
-//        String data = "Google\nsum";
-//        InputStream stdin = System.in;
-//
-//        System.setIn(new ByteArrayInputStream(data.getBytes()));
-//        App.input = new Scanner(System.in);
-//
-//        assertNull(App.menu(),"sum");
-//    }
+    @Test
+    void testingMenu4() {
+        String data = "Google\nsum";
+        InputStream stdin = System.in;
 
-    App.CurrenciesIndex aud = App.CurrenciesIndex.AUD;
-    App.CurrenciesIndex eur = App.CurrenciesIndex.EURO;
+        System.setIn(new ByteArrayInputStream(data.getBytes()));
+        App.input = new Scanner(System.in);
+
+        assertEquals(App.menu(), "sum");
+    }
+
 
     @Test
     void testAmountToConvert() {
-
-
+        App.CurrenciesIndex aud = App.CurrenciesIndex.AUD;
+        App.CurrenciesIndex eur = App.CurrenciesIndex.EURO;
         String data = "100";
         InputStream stdin = System.in;
         System.setIn(new ByteArrayInputStream(data.getBytes()));
         App.input = new Scanner(System.in);
-        assertEquals(100,App.amountToConvert(aud,eur));
+        assertEquals(100, App.amountToConvert(aud, eur));
 
     }
 
     @Test
-    void testConvert(){
-        assertEquals(62.0,App.convert(aud,eur,100.0));
+    void testConvert() {
+        App.CurrenciesIndex aud = App.CurrenciesIndex.AUD;
+        App.CurrenciesIndex eur = App.CurrenciesIndex.EURO;
+        assertEquals(62.0, App.convert(aud, eur, 100.0));
     }
+
+    @Test
+    void testingDriver() {
+        String data1 = "convert\naud\nusd\n10\nN";
+        InputStream stdin = System.in;
+        System.setIn(new ByteArrayInputStream(data1.getBytes()));
+        App.input = new Scanner(System.in);
+        App.driver();
+        assertEquals("Would you like to convert or sum the money? Enter exit to exit." + System.lineSeparator() +
+                "Select From Currency: (USD, AUD, EURO, POUND, SGD)[CASE INSENSITIVE] " + System.lineSeparator() +
+                "Select To Currency: (USD, AUD, EURO, POUND, SGD)[CASE INSENSITIVE] " + System.lineSeparator() +
+                "How much AUD you want to convert to USD?" + System.lineSeparator() +
+                "10.00 AUD is 6.90 USD to!\n" + System.lineSeparator() +
+                "Would you like to make another conversion or Sum? Y or N" + System.lineSeparator(), outContent.toString());
+
+    }
+
 }

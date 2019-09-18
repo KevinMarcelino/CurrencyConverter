@@ -309,7 +309,6 @@ public class App {
     public static void main(String[] args) {
 
         System.out.println(showGreeting());
-        driver();
         accVerification(whoAreYou());
         System.out.println(showExitGreeting());
 
