@@ -11,7 +11,7 @@ public class App {
 
     static Scanner input = new Scanner(System.in);
     //                                       USD       AUD        EURO        POUND     SGD
-    private static double [][] rates  =     {{ 1     ,  1.46    ,  0.9     ,   0.8    ,  1.38  }, // Usd to USD, AUD,...
+    public static double [][] rates  =     {{ 1     ,  1.46    ,  0.9     ,   0.8    ,  1.38  }, // Usd to USD, AUD,...
                                             { 0.69  ,  1       ,  0.62    ,   0.56   ,  0.95  }, // AUD to USD, AUD ....
                                             { 1.11  ,  1.61    ,  1       ,   0.9    ,  1.52  }, // EURO to USD, AUD ...
                                             { 1.24  ,  1.8     ,  1.12    ,   1      ,  1.70  },
@@ -35,16 +35,37 @@ public class App {
         return greeting;
     }
 
-
-
-
-    private static Double updateCurrency(){
+    public static String whoAreYou(){
+        String identity;
         while(true) {
-            System.out.println("Select From Currency: (USD, AUD, EURO, POUND, SGD)[CASE INSENSITIVE] ");
+            System.out.println("Who are you? (ADMIN / USER)");
+            identity = input.nextLine();
+            identity.toLowerCase();
+            if(identity.equals("admin")||identity.equals("user")){
+                break;
+            }else{
+                System.out.println("Invalid input");
+            }
+        }
+        return identity;
+    }
+
+    public static void accVerification(String account){
+        if(account.equals("admin")){
+            adminAcc();
+        }
+        else{
+            userAcc();
+        }
+    }
+
+    public static void updateCurrency(){
+        while(true) {
+            System.out.println("Select From Currency: (USD, AUD, EURO, POUND, SGD)[CASE INSENSITIVE]");
             String stringFrom = input.nextLine();
 
             if (stringFrom.toLowerCase().equals("exit")) {
-                return null;
+                return;
             }
             CurrenciesIndex from = findIndex(stringFrom);
 
@@ -62,7 +83,7 @@ public class App {
             }
 
             System.out.println(String.format("Current rate is %.2f. What is the new rate from %s to %s ?",
-                    rates[from.getIdx()][to.getIdx()], from, to));
+                rates[from.getIdx()][to.getIdx()], from, to));
 
             double newRate = input.nextDouble();
             rates[from.getIdx()][to.getIdx()] = newRate;
@@ -72,16 +93,17 @@ public class App {
             System.out.println("Would you like update different rate? Y or N");
             String anotherOne = input.next();
             if(anotherOne.toUpperCase().equals("N")) {
-                return null;
+                return;
             }
             input.nextLine();
         }
     }
 
-    private static void adminAcc(){
+
+    public static void adminAcc(){
         String adminOption;
         while(true){
-            System.out.println("What do you want to do? (Update Currency / Check Rate / exit)");
+            System.out.println("What do you want to do? (Check Rate / Update Currency / exit)");
             adminOption = input.nextLine();
             if(adminOption.toLowerCase().equals("exit")){
                 return;
@@ -93,12 +115,11 @@ public class App {
                 input.nextLine();
             }else{
                 System.out.println("Invalid input");
-                System.out.println("");
             }
         }
     }
 
-    private static void userAcc(){
+    public static void userAcc(){
         String userOption;
         while(true){
             System.out.println("What do you want to do? (Check Rate / exit)");
@@ -110,7 +131,6 @@ public class App {
                 input.nextLine();
             }else{
                 System.out.println("Invalid input");
-                System.out.println("");
             }
         }
     }
@@ -235,7 +255,6 @@ public class App {
     }
 
     public static double convert(CurrenciesIndex from, CurrenciesIndex to, double amount){
-
         double answer = amount*rates[from.getIdx()][to.getIdx()];
         System.out.println(String.format("%.2f %s is %.2f %s to!\n", amount, from, answer, to));
         return answer;
@@ -258,7 +277,6 @@ public class App {
 
 
     public static void driver(){
-
         while (true){
             String todo = menu();
             if (todo.equals("convert")) {
@@ -288,6 +306,7 @@ public class App {
 
         System.out.println(showGreeting());
         driver();
+        accVerification(whoAreYou());
         System.out.println(showExitGreeting());
 
     }
