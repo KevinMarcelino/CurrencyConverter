@@ -68,6 +68,25 @@ class UpdateCurrencyTest {
     CurrenciesIndex from = App.findIndex("AUD");
     CurrenciesIndex to = App.findIndex("USD");
     assertEquals(1000.0,App.rates[from.getIdx()][to.getIdx()]);
+    assertEquals((1.0/1000.0),App.rates[to.getIdx()][from.getIdx()]);
+  }
+
+  @Test void updateCurrencySameCurrencyTest(){
+
+    String s = "AUD\nAUD\nexit";
+    ByteArrayInputStream in = new ByteArrayInputStream(s.getBytes());
+    System.setIn(in);
+    App.input = new Scanner(System.in);
+
+    App.updateCurrency();
+
+    assertEquals(
+            "Select From Currency: (USD, AUD, EURO, POUND, SGD)[CASE INSENSITIVE]" + System.lineSeparator() +
+                    "Select TO Currency: (USD, AUD, EURO, POUND, SGD) [CASE INSENSITIVE]" + System.lineSeparator() +
+                    "You need to select two different Currencies!\n" +System.lineSeparator() +
+                    "Select From Currency: (USD, AUD, EURO, POUND, SGD)[CASE INSENSITIVE]" +System.lineSeparator()
+            ,
+            outContent.toString());
   }
 
   @Test void updateCurrencyInvalidInputTest() {
