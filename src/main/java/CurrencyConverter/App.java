@@ -7,26 +7,26 @@ public class App {
     static Scanner input = new Scanner(System.in);
     //                                       USD       AUD        EURO        POUND     SGD
     public static double [][] rates  =     {{ 1     ,  1.46    ,  0.9     ,   0.8    ,  1.38  }, // Usd to USD, AUD,...
-                                            { 0.69  ,  1       ,  0.62    ,   0.56   ,  0.95  }, // AUD to USD, AUD ....
-                                            { 1.11  ,  1.61    ,  1       ,   0.9    ,  1.52  }, // EURO to USD, AUD ...
-                                            { 1.24  ,  1.8     ,  1.12    ,   1      ,  1.70  },
-                                            { 0.73  ,  1.06    ,  0.66    ,   0.59   ,  1     }};
+            { 0.69  ,  1       ,  0.62    ,   0.56   ,  0.95  }, // AUD to USD, AUD ....
+            { 1.11  ,  1.61    ,  1       ,   0.9    ,  1.52  }, // EURO to USD, AUD ...
+            { 1.24  ,  1.8     ,  1.12    ,   1      ,  1.70  },
+            { 0.73  ,  1.06    ,  0.66    ,   0.59   ,  1     }};
 
     public static String showGreeting(){
         String greeting =   "********************************************************\n" +
-                            "********************************************************\n" +
-                            "****************** Currency Converter ******************\n" +
-                            "********************************************************\n" +
-                            "********************************************************\n";
+                "********************************************************\n" +
+                "****************** Currency Converter ******************\n" +
+                "********************************************************\n" +
+                "********************************************************\n";
         return greeting;
     }
 
     public static String showExitGreeting(){
         String greeting =   "********************************************************\n" +
-                            "********************************************************\n" +
-                            "************************* BYE **************************\n" +
-                            "********************************************************\n" +
-                            "********************************************************\n";
+                "********************************************************\n" +
+                "************************* BYE **************************\n" +
+                "********************************************************\n" +
+                "********************************************************\n";
         return greeting;
     }
 
@@ -77,23 +77,46 @@ public class App {
                 continue;
             }
 
+            if(from == to){
+                System.out.println("You need to select two different Currencies!\n");
+                continue;
+            }
+
             System.out.println(String.format("Current rate is %.2f. What is the new rate from %s to %s ?",
-                rates[from.getIdx()][to.getIdx()], from, to));
+                    rates[from.getIdx()][to.getIdx()], from, to));
 
-            double newRate = input.nextDouble();
+            double newRate = amountIntakerValidator(false);//input.nextDouble();
+
+            while(newRate<0){
+                newRate = amountIntakerValidator(true);
+            }
             rates[from.getIdx()][to.getIdx()] = newRate;
-
+            rates[to.getIdx()][from.getIdx()] = 1/newRate;
             System.out.println(String.format("The rate from %s to %s is now %.2f", from, to, newRate));
 
-            System.out.println("Would you like update different rate? Y or N");
-            String anotherOne = input.next();
-            if(anotherOne.toUpperCase().equals("N")) {
+            String command = "Would you like update different rate? Y or N";
+            boolean yesNo = yesOrNo(command);
+            if(!yesNo) {
                 return;
             }
             input.nextLine();
         }
     }
 
+    public static boolean yesOrNo(String command){
+        System.out.println(command);
+        while(true){
+            String userInput = input.next();
+            if(userInput.toUpperCase().equals("Y")){
+                return true;
+            }else if(userInput.toUpperCase().equals("N")){
+                return false;
+            }else{
+                System.out.println("Invalid amount entered. Try again!");
+                continue;
+            }
+        }
+    }
 
     public static void adminAcc(){
         String adminOption;
@@ -252,7 +275,7 @@ public class App {
         }
 
         while(!input.hasNextDouble()){
-            System.out.println("invalid amount provided, try again!");
+            System.out.println("Invalid amount provided, try again!");
             input.nextLine();
         }
         return input.nextDouble();
@@ -308,12 +331,12 @@ public class App {
                 return;
             }
 
-            System.out.println("Would you like to make another conversion or Sum? Y or N");
-            String anotherOne = input.next();
-            if(anotherOne.toUpperCase().equals("N")) {
+            String command = "Would you like to make another conversion or Sum? Y or N";
+            boolean yesNo = yesOrNo(command);
+            if(!yesNo) {
                 return;
             }
-
+            
             input.nextLine();
         }
     }
