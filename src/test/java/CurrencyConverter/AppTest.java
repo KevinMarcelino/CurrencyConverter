@@ -98,7 +98,7 @@ class AppTest {
         InputStream stdin = System.in;
         System.setIn(new ByteArrayInputStream(data.getBytes()));
         App.input = new Scanner(System.in);
-        assertEquals(App.fromCurrency(), null);
+        assertEquals(null, App.fromCurrency());
     }
 
     @Test
@@ -108,17 +108,17 @@ class AppTest {
         System.setIn(new ByteArrayInputStream(data1.getBytes()));
         App.input = new Scanner(System.in);
         App.sum();
-        assertEquals("How many currencies you want to sum up? " + System.lineSeparator() +
-                "The maximum number you can sum is 3\nPlease enter again" + System.lineSeparator() +
-                "You have entered an invalid number\nPlease try again" + System.lineSeparator() +
-                "Enter the 1 currency and the amount" + System.lineSeparator() +
-                "Enter the 2 currency and the amount" + System.lineSeparator() +
-                "Enter the 3 currency and the amount" + System.lineSeparator() +
-                "Invalid input, Please provide with a Currency and Amount!" + System.lineSeparator() +
-                "Enter the 3 currency and the amount" + System.lineSeparator() +
-                "Enter the currency would like to convert to:" + System.lineSeparator() +
-                "Select To Currency: (USD, AUD, EURO, POUND, SGD)[CASE INSENSITIVE] " + System.lineSeparator() +
-                "Answer is 4.87" + System.lineSeparator(), outContent.toString());
+        assertEquals("How many currencies you want to sum up? " + System.getProperty("line.separator") +
+                "The maximum number you can sum is 3\nPlease enter again" + System.getProperty("line.separator") +
+                "You have entered an invalid number\nPlease try again" + System.getProperty("line.separator") +
+                "Enter the 1 currency and the amount" + System.getProperty("line.separator") +
+                "Enter the 2 currency and the amount" + System.getProperty("line.separator") +
+                "Enter the 3 currency and the amount" + System.getProperty("line.separator") +
+                "Invalid input, Please provide with a Currency and Amount!" + System.getProperty("line.separator") +
+                "Enter the 3 currency and the amount" + System.getProperty("line.separator") +
+                "Enter the currency would like to convert to:" + System.getProperty("line.separator") +
+                "Select To Currency: (USD, AUD, EURO, POUND, SGD)[CASE INSENSITIVE] " + System.getProperty("line.separator") +
+                "Answer is 4.87" + System.getProperty("line.separator"), outContent.toString());
     }
 
     @Test
