@@ -119,7 +119,7 @@ class AppTest {
                 "Invalid input, Please provide with a Currency and Amount!" + System.lineSeparator() +
                 "Enter the 3 currency and the amount" + System.lineSeparator() +
                 "Enter the currency would like to convert to:\nSelect To Currency: (USD, AUD, EURO, POUND, SGD)[CASE INSENSITIVE] " + System.lineSeparator() +
-                "Answer is 4.87\r\n", outContent.toString());
+                "Answer is 4.87" + System.getProperty("line.separator"), outContent.toString());
     }
 
     @Test
@@ -292,7 +292,7 @@ class AppTest {
                 "Select From Currency: (USD, AUD, EURO, POUND, SGD)[CASE INSENSITIVE] " + System.lineSeparator() +
                 "Select To Currency: (USD, AUD, EURO, POUND, SGD)[CASE INSENSITIVE] " + System.lineSeparator() +
                 "How much AUD you want to convert to USD?" + System.lineSeparator() +
-                "10.00 AUD is 6.90 USD to!\n" + System.lineSeparator() +
+                "10.00 AUD is 6.90 USD!\n" + System.lineSeparator() +
                 "Would you like to make another conversion or Sum? Y or N" + System.lineSeparator(), outContent.toString());
     }
 
@@ -307,7 +307,7 @@ class AppTest {
                 "Select From Currency: (USD, AUD, EURO, POUND, SGD)[CASE INSENSITIVE] " + System.lineSeparator() +
                 "Select To Currency: (USD, AUD, EURO, POUND, SGD)[CASE INSENSITIVE] " + System.lineSeparator() +
                 "How much AUD you want to convert to EURO?" + System.lineSeparator() +
-                "10.00 AUD is 6.20 EURO to!\n" + System.lineSeparator() +
+                "10.00 AUD is 6.20 EURO!\n" + System.lineSeparator() +
                 "Would you like to make another conversion or Sum? Y or N" + System.lineSeparator(), outContent.toString());
     }
 
@@ -322,7 +322,7 @@ class AppTest {
                 "Select From Currency: (USD, AUD, EURO, POUND, SGD)[CASE INSENSITIVE] " + System.lineSeparator() +
                 "Select To Currency: (USD, AUD, EURO, POUND, SGD)[CASE INSENSITIVE] " + System.lineSeparator() +
                 "How much AUD you want to convert to POUND?" + System.lineSeparator() +
-                "10.00 AUD is 5.60 POUND to!\n" + System.lineSeparator() +
+                "10.00 AUD is 5.60 POUND!\n" + System.lineSeparator() +
                 "Would you like to make another conversion or Sum? Y or N" + System.lineSeparator(), outContent.toString());
     }
 
@@ -337,7 +337,7 @@ class AppTest {
                 "Select From Currency: (USD, AUD, EURO, POUND, SGD)[CASE INSENSITIVE] " + System.lineSeparator() +
                 "Select To Currency: (USD, AUD, EURO, POUND, SGD)[CASE INSENSITIVE] " + System.lineSeparator() +
                 "How much AUD you want to convert to SGD?" + System.lineSeparator() +
-                "10.00 AUD is 9.50 SGD to!\n" + System.lineSeparator() +
+                "10.00 AUD is 9.50 SGD!\n" + System.lineSeparator() +
                 "Would you like to make another conversion or Sum? Y or N" + System.lineSeparator(), outContent.toString());
     }
 
@@ -348,11 +348,16 @@ class AppTest {
         System.setIn(new ByteArrayInputStream(data1.getBytes()));
         App.input = new Scanner(System.in);
         App.driver();
+
+
+
+
+
         assertEquals("Would you like to convert or sum the money? Enter exit to exit." + System.lineSeparator() +
                 "Select From Currency: (USD, AUD, EURO, POUND, SGD)[CASE INSENSITIVE] " + System.lineSeparator() +
                 "Select To Currency: (USD, AUD, EURO, POUND, SGD)[CASE INSENSITIVE] " + System.lineSeparator() +
                 "How much AUD you want to convert to SGD?" + System.lineSeparator() +
-                "10.00 AUD is 9.50 SGD to!\n" + System.lineSeparator() +
+                "10.00 AUD is 9.50 SGD!\n" + System.lineSeparator() +
                 "Would you like to make another conversion or Sum? Y or N" + System.lineSeparator() +
                 "Would you like to convert or sum the money? Enter exit to exit." +System.lineSeparator(), outContent.toString());
     }
