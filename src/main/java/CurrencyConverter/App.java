@@ -222,7 +222,7 @@ public class App {
             else if (inputString.toLowerCase().contains("sum")){
 
             }
-            fromCurrency = findIndex(inputString);
+            fromCurrency = findIndex(inputString.strip());
         }
         while (fromCurrency== null);
 
@@ -239,22 +239,40 @@ public class App {
                 return null;
             }
 
-            fromCurrency = findIndex(inputString);
+            fromCurrency = findIndex(inputString.strip());
         }
         while (fromCurrency== null);
 
         return fromCurrency;
     }
 
+    public static double amountIntakerValidator(boolean showErrorMessage){
+        if(showErrorMessage){
+            System.out.println("Invalid amount entered. Try again:");
+        }
+
+        while(!input.hasNextDouble()){
+            System.out.println("invalid amount provided, try again!");
+            input.nextLine();
+        }
+        return input.nextDouble();
+    }
 
     public static double amountToConvert(CurrenciesIndex from, CurrenciesIndex to){
         System.out.println(String.format("How much %s you want to convert to %s?", from, to));
-        return input.nextDouble();
+
+        double amount = amountIntakerValidator(false);
+
+        while (amount<0){
+            amount = amountIntakerValidator(true);
+        }
+
+        return amount;
     }
 
     public static double convert(CurrenciesIndex from, CurrenciesIndex to, double amount){
         double answer = amount*rates[from.getIdx()][to.getIdx()];
-        System.out.println(String.format("%.2f %s is %.2f %s to!\n", amount, from, answer, to));
+        System.out.println(String.format("%.2f %s is %.2f %s!\n", amount, from, answer, to));
         return answer;
     }
 
