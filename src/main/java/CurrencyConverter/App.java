@@ -147,12 +147,18 @@ public class App {
         System.out.println("How many currencies you want to sum up? ");
         int x;
         do{
-            x = input.nextInt(); input.nextLine();
-            if(x > 3){
-                System.out.println("The maximum number you can sum is 3\nPlease enter again");
-            }
-            else if( x <= 0){
-                System.out.println("You have entered an invalid number\nPlease try again");
+            try {
+                x = input.nextInt(); input.nextLine();
+                if(x > 3){
+                    System.out.println("The maximum number you can sum is 3\nPlease enter again");
+                }
+                else if( x <= 0){
+                    System.out.println("You have entered an invalid number\nPlease try again");
+                }
+            } catch (Exception e){
+                x = 4;
+                input.nextLine();
+                System.out.println("You must input a number\nPlease try again");
             }
         }
         while (x>3|x<0);
@@ -182,7 +188,7 @@ public class App {
                     }
                 }
                 catch (Exception e){
-                    System.out.println("Invalid Amount given.");
+                    System.out.println("input must be a number");
                     continue;
                 }
             }
@@ -209,8 +215,6 @@ public class App {
         }
         return sum;
     }
-
-
 
     public static CurrenciesIndex fromCurrency(){
         CurrenciesIndex fromCurrency;
