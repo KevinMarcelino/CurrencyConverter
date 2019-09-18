@@ -34,13 +34,12 @@ public class App {
         String identity;
         while(true) {
             System.out.println("Who are you? (ADMIN / USER)");
-            String identityInput = input.nextLine();
-            identity=identityInput.toLowerCase();
-            if(identity.equals("user")){
+            identity = input.nextLine();
+            identity.toLowerCase();
+            if(identity.equals("admin")||identity.equals("user")){
                 break;
             }else{
                 System.out.println("Invalid input");
-
             }
         }
         return identity;
