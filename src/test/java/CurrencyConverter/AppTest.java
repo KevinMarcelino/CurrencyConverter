@@ -215,4 +215,25 @@ class AppTest {
 //        assertNull(App.menu(),"sum");
 //        System.setIn(stdin);
 //    }
+
+    App.CurrenciesIndex aud = App.CurrenciesIndex.AUD;
+    App.CurrenciesIndex eur = App.CurrenciesIndex.EURO;
+
+    @Test
+    void testAmountToConvert() {
+
+
+        String data = "100";
+        InputStream stdin = System.in;
+        System.setIn(new ByteArrayInputStream(data.getBytes()));
+        App.input = new Scanner(System.in);
+        assertEquals(100,App.amountToConvert(aud,eur));
+        System.setIn(stdin);
+
+    }
+
+    @Test
+    void testConvert(){
+        assertEquals(62.0,App.convert(aud,eur,100.0));
+    }
 }
