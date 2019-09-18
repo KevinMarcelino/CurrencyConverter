@@ -1,6 +1,6 @@
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+package CurrencyConverter;
+
+import java.util.*;
 
 public class App {
     static Map<String, String> UsernamesAndPasswords = new HashMap<String, String>();
