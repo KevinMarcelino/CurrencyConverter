@@ -1,386 +1,173 @@
 package CurrencyConverter;
 
-import java.util.*;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-public class App {
-    static Map<String, String> UsernamesAndPasswords = new HashMap<String, String>();
-    static Scanner input = new Scanner(System.in);
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.io.PrintStream;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 
-    public static double[][] rates = {
-            // USD AUD EURO POUND SGD
-            {1, 1.46, 0.9, 0.8, 1.38}, // Usd to USD, AUD,...
-            {0.69, 1, 0.62, 0.56, 0.95}, // AUD to USD, AUD ....
-            {1.11, 1.61, 1, 0.9, 1.52}, // EURO to USD, AUD ...
-            {1.24, 1.8, 1.12, 1, 1.70},
-            {0.73, 1.06, 0.66, 0.59, 1}
-    };
+import static org.junit.jupiter.api.Assertions.*;
 
-    public static String showGreeting() {
-        String greeting =
-                "********************************************************\n"
-                        + "********************************************************\n"
-                        + "****************** Currency Converter ******************\n"
-                        + "********************************************************\n"
-                        + "********************************************************\n";
-        return greeting;
+class SumTest {
+    private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+    private final PrintStream originalOut = System.out;
+
+
+    @BeforeEach
+    public void before(){
+        System.setOut(new PrintStream(outContent));
     }
 
-    public static String showExitGreeting() {
-        String greeting =
-                "********************************************************\n"
-                        + "********************************************************\n"
-                        + "************************* BYE **************************\n"
-                        + "********************************************************\n"
-                        + "********************************************************\n";
-        return greeting;
+    @AfterEach
+    public void after(){
+        System.setIn(System.in);
+        System.setOut(originalOut);
     }
 
-    public static String whoAreYou() {
-        String identity;
-        while (true) {
-            System.out.println("Who are you? (ADMIN / USER)");
-            identity = input.nextLine().strip();
-            if (identity.toLowerCase().equals("admin") || identity.toLowerCase().equals("user")) {
-                break;
-            } else {
-                System.out.println("Invalid input");
-            }
-        }
-        return identity;
+    @Test
+    void testSum() {
+        String data1 = "4\n-1\n3\nusd 1\neuro 1\npound\npound 1\naud";
+        InputStream stdin = System.in;
+        System.setIn(new ByteArrayInputStream(data1.getBytes()));
+        App.input = new Scanner(System.in);
+        App.sum();
+
+        assertEquals(
+                "How many currencies you want to sum up? "
+                        + System.lineSeparator()
+                        + "The maximum number you can sum is 3\nPlease enter again"
+                        + System.lineSeparator()
+                        + "You have entered an invalid number\nPlease try again"
+                        + System.lineSeparator()
+                        + "Enter the 1 currency and the amount"
+                        + System.lineSeparator()
+                        + "Enter the 2 currency and the amount"
+                        + System.lineSeparator()
+                        + "Enter the 3 currency and the amount"
+                        + System.lineSeparator()
+                        + "Invalid input, Please provide with a Currency and Amount!"
+                        + System.lineSeparator()
+                        + "Enter the 3 currency and the amount"
+                        + System.lineSeparator()
+                        + "Enter the currency you would like to convert to:\nSelect To Currency: (USD, AUD, EURO, POUND, SGD)[CASE INSENSITIVE] "
+                        + System.lineSeparator()
+                        + "Answer is 4.87"
+                        + System.getProperty("line.separator"),
+                outContent.toString());
     }
 
-    public static void accVerification(String account) {
-        if (account.equals("admin")) {
-            adminAcc();
-        } else {
-            userAcc();
-        }
+    @Test
+    void testSum2() {
+        String data1 = "word\n2\nYen\nYen 100\nusd 100\neuro -1\neuro amount\neuro 100\naud";
+        InputStream stdin = System.in;
+        System.setIn(new ByteArrayInputStream(data1.getBytes()));
+        App.input = new Scanner(System.in);
+        App.sum();
+
+        assertEquals(
+                "How many currencies you want to sum up? "
+                        + System.lineSeparator()
+                        + "You must input a number\nPlease try again"
+                        + System.lineSeparator()
+                        + "Enter the 1 currency and the amount"
+                        + System.lineSeparator()
+                        + "Invalid input, Please provide with a Currency and Amount!"
+                        + System.lineSeparator()
+                        + "Enter the 1 currency and the amount"
+                        + System.lineSeparator()
+                        + "Please select a valid currency!"
+                        + System.lineSeparator()
+                        + "Yen is not a valid currency\nPlease enter again!"
+                        + System.lineSeparator()
+                        + "Enter the 1 currency and the amount"
+                        + System.lineSeparator()
+                        + "Enter the 2 currency and the amount"
+                        + System.lineSeparator()
+                        + "Invalid Amount given"
+                        + System.lineSeparator()
+                        + "Enter the 2 currency and the amount"
+                        + System.lineSeparator()
+                        + "input must be a number"
+                        + System.lineSeparator()
+                        + "Enter the 2 currency and the amount"
+                        + System.lineSeparator()
+                        + "Enter the currency you would like to convert to:\nSelect To Currency: (USD, AUD, EURO, POUND, SGD)[CASE INSENSITIVE] "
+                        + System.lineSeparator()
+                        + "Answer is 307.0"
+                        + System.getProperty("line.separator"),
+                outContent.toString());
     }
 
-    public static void updateCurrency() {
-        while (true) {
-            System.out.println("Select From Currency: (USD, AUD, EURO, POUND, SGD)[CASE INSENSITIVE]");
-            String stringFrom = input.nextLine().strip();
+    @Test
+    void testSum3() {
+        String data1 = "0\n4\n-1\n3\nusd 1\neuro 1\npound\npound 1\naud";
+        InputStream stdin = System.in;
+        System.setIn(new ByteArrayInputStream(data1.getBytes()));
+        App.input = new Scanner(System.in);
+        App.sum();
 
-            if (stringFrom.toLowerCase().equals("exit")) {
-                return;
-            }
-            CurrenciesIndex from = findIndex(stringFrom);
-
-            if (from == null) {
-                continue;
-            }
-
-            System.out.println("Select TO Currency: (USD, AUD, EURO, POUND, SGD) [CASE INSENSITIVE]");
-            String stringTo = input.nextLine();
-
-            CurrenciesIndex to = findIndex(stringTo);
-
-            if (to == null) {
-                continue;
-            }
-
-            if (from == to) {
-                System.out.println("You need to select two different Currencies!\n");
-                continue;
-            }
-
-            System.out.println(
-                    String.format(
-                            "Current rate is %.2f. What is the new rate from %s to %s ?",
-                            rates[from.getIdx()][to.getIdx()], from, to));
-
-            double newRate = amountIntakerValidator(false); // input.nextDouble();
-
-            while (newRate < 0) {
-                newRate = amountIntakerValidator(true);
-            }
-            rates[from.getIdx()][to.getIdx()] = newRate;
-            rates[to.getIdx()][from.getIdx()] = 1 / newRate;
-            System.out.println(String.format("The rate from %s to %s is now %.2f", from, to, newRate));
-
-            String command = "Would you like update different rate? Y or N";
-            boolean yesNo = yesOrNo(command);
-            if (!yesNo) {
-                return;
-            }
-            input.nextLine();
-        }
+        assertEquals("How many currencies you want to sum up? "
+                        + System.lineSeparator()
+                        + "You have entered an invalid number\nPlease try again"
+                        + System.lineSeparator()
+                        + "The maximum number you can sum is 3\nPlease enter again"
+                        + System.lineSeparator()
+                        + "You have entered an invalid number\nPlease try again"
+                        + System.lineSeparator()
+                        + "Enter the 1 currency and the amount"
+                        + System.lineSeparator()
+                        + "Enter the 2 currency and the amount"
+                        + System.lineSeparator()
+                        + "Enter the 3 currency and the amount"
+                        + System.lineSeparator()
+                        + "Invalid input, Please provide with a Currency and Amount!"
+                        + System.lineSeparator()
+                        + "Enter the 3 currency and the amount"
+                        + System.lineSeparator()
+                        + "Enter the currency you would like to convert to:\nSelect To Currency: (USD, AUD, EURO, POUND, SGD)[CASE INSENSITIVE] "
+                        + System.lineSeparator()
+                        + "Answer is 4.87"
+                        + System.getProperty("line.separator"),
+                outContent.toString());
     }
 
-    public static boolean yesOrNo(String command) {
-        System.out.println(command);
-        while (true) {
-            String userInput = input.next();
-            if (userInput.toUpperCase().equals("Y")) {
-                return true;
-            } else if (userInput.toUpperCase().equals("N")) {
-                return false;
-            } else {
-                System.out.println("Invalid amount entered. Try again!");
-                continue;
-            }
-        }
+    @Test
+    void testSumHelper() {
+        List<Pair<App.CurrenciesIndex, Double>> sumList = new ArrayList<>();
+        sumList.add(new Pair<>(App.CurrenciesIndex.USD, 10.0));
+        sumList.add(new Pair<>(App.CurrenciesIndex.EURO, 10.0));
+        sumList.add(new Pair<>(App.CurrenciesIndex.POUND, 10.0));
+        double sum1 = App.sumHelper(sumList, App.CurrenciesIndex.AUD);
+        double sum2 = 48.7;
+        assertEquals(sum1, sum2);
     }
 
-    public static void adminAcc() {
-        String adminOption;
-        while (true) {
-            System.out.println("What do you want to do? (Check Rate / Update Currency / exit)");
-            adminOption = input.nextLine().strip();
-            if (adminOption.toLowerCase().equals("exit")) {
-                return;
-            } else if (adminOption.toLowerCase().equals("check rate")) {
-                driver();
-            } else if (adminOption.toLowerCase().equals("update currency")) {
-                updateCurrency();
-            } else {
-                System.out.println("Invalid input");
-            }
-        }
+    @Test
+    void testSumHelper2() {
+        List<Pair<App.CurrenciesIndex, Double>> sumList = new ArrayList<>();
+        sumList.add(new Pair<>(App.CurrenciesIndex.USD, 0.0));
+        sumList.add(new Pair<>(App.CurrenciesIndex.EURO, 0.0));
+        sumList.add(new Pair<>(App.CurrenciesIndex.SGD, 0.0));
+        double sum1 = App.sumHelper(sumList, App.CurrenciesIndex.AUD);
+        double sum2 = 0.0;
+        assertEquals(sum1, sum2);
     }
 
-    public static void userAcc() {
-        String userOption;
-        while (true) {
-            System.out.println("What do you want to do? (Check Rate / exit)");
-            userOption = input.nextLine().strip();
-            if (userOption.toLowerCase().equals("exit")) {
-                return;
-            } else if (userOption.toLowerCase().equals("check rate")) {
-                driver();
-                //input.nextLine();
-            } else {
-                System.out.println("Invalid input");
-            }
-        }
+    @Test
+    void testSumHelper3() {
+        List<Pair<App.CurrenciesIndex, Double>> sumList = new ArrayList<>();
+        sumList.add(new Pair<>(App.CurrenciesIndex.USD, 1000.0));
+        sumList.add(new Pair<>(App.CurrenciesIndex.AUD, 1000.0));
+        sumList.add(new Pair<>(App.CurrenciesIndex.POUND, 1000.0));
+        double sum1 = App.sumHelper(sumList, App.CurrenciesIndex.EURO);
+        double sum2 = 2640;
+        assertEquals(sum1, sum2);
     }
 
-    public static String wrongCurrencyMessage(String currency) {
-        String message = String.format("%s is not a valid currency\nPlease enter again!", currency);
-        return message;
-    }
-
-    public static double sum() {
-        List<Pair<CurrenciesIndex, Double>> sumList = new ArrayList<>();
-
-        System.out.println("How many currencies you want to sum up? ");
-        int x;
-        do {
-            try {
-                x = input.nextInt();
-                input.nextLine().strip();
-                if (x > 3) {
-                    System.out.println("The maximum number you can sum is 3\nPlease enter again");
-                } else if (x <= 0) {
-                    System.out.println("You have entered an invalid number\nPlease try again");
-                }
-            } catch (Exception e) {
-                x = 4;
-                input.nextLine();
-                System.out.println("You must input a number\nPlease try again");
-            }
-        } while (x > 3 | x <= 0);
-
-        for (int i = 0; i < x; i++) {
-            CurrenciesIndex currenciesIndex = null;
-            double amount = 0;
-
-            do {
-                System.out.println(String.format("Enter the %d currency and the amount", i + 1));
-                String[] currencyList = input.nextLine().split(" "); // Handle length of array < 1
-
-                if (currencyList.length == 1) {
-                    System.out.println("Invalid input, Please provide with a Currency and Amount!");
-                    continue;
-                }
-                currenciesIndex = findIndex(currencyList[0]);
-                if (currenciesIndex == null) {
-                    System.out.println(wrongCurrencyMessage(currencyList[0]));
-                }
-                try {
-                    amount = Double.parseDouble(currencyList[1]);
-                    if (amount < 0) {
-                        System.out.println("Invalid Amount given");
-                        continue;
-                    }
-                } catch (Exception e) {
-                    System.out.println("input must be a number");
-                    continue;
-                }
-            } while (currenciesIndex == null | amount < 0);
-
-            sumList.add(new Pair<>(currenciesIndex, amount));
-        }
-
-        System.out.printf("Enter the currency would like to convert to:\n");
-
-        CurrenciesIndex toCurrency = toCurrency();
-
-        double answer = sumHelper(sumList, toCurrency);
-        System.out.println(String.format("Answer is %.2f %s" , answer,toCurrency));
-        return answer;
-    }
-
-    public static double sumHelper(
-            List<Pair<CurrenciesIndex, Double>> sumList, CurrenciesIndex currency) {
-
-        double sum = 0;
-
-        for (Pair i : sumList) {
-            sum +=
-                    ((double) i.getValue())
-                            * rates[((CurrenciesIndex) i.getKey()).getIdx()][currency.getIdx()];
-        }
-        return sum;
-    }
-
-    public static CurrenciesIndex fromCurrency() {
-        CurrenciesIndex fromCurrency;
-        do {
-            System.out.println("Select From Currency: (USD, AUD, EURO, POUND, SGD)[CASE INSENSITIVE] ");
-            String inputString = input.nextLine().strip();
-
-            if (inputString.toLowerCase().contains("exit")) {
-                return null;
-            } else if (inputString.toLowerCase().contains("sum")) {
-
-            }
-            fromCurrency = findIndex(inputString.strip());
-        } while (fromCurrency == null);
-
-        return fromCurrency;
-    }
-
-    public static CurrenciesIndex toCurrency() {
-        CurrenciesIndex fromCurrency;
-        do {
-            System.out.println("Select To Currency: (USD, AUD, EURO, POUND, SGD)[CASE INSENSITIVE] ");
-            String inputString = input.nextLine().strip();
-
-            if (inputString.toLowerCase().contains("exit")) {
-                return null;
-            }
-
-            fromCurrency = findIndex(inputString.strip());
-        } while (fromCurrency == null);
-
-        return fromCurrency;
-    }
-
-    public static double amountIntakerValidator(boolean showErrorMessage) {
-        if (showErrorMessage) {
-            System.out.println("Invalid amount entered. Try again:");
-        }
-
-        while (!input.hasNextDouble()) {
-            System.out.println("Invalid amount provided, try again!");
-            input.nextLine();
-        }
-        return input.nextDouble();
-    }
-
-    public static double amountToConvert(CurrenciesIndex from, CurrenciesIndex to) {
-        System.out.println(String.format("How much %s you want to convert to %s?", from, to));
-
-        double amount = amountIntakerValidator(false);
-
-        while (amount < 0) {
-            amount = amountIntakerValidator(true);
-        }
-
-        return amount;
-    }
-
-    public static double convert(CurrenciesIndex from, CurrenciesIndex to, double amount) {
-        double answer = amount * rates[from.getIdx()][to.getIdx()];
-        System.out.println(String.format("%.2f %s is %.2f %s!\n", amount, from, answer, to));
-        return answer;
-    }
-
-    public static String menu() {
-        System.out.println("Would you like to convert or sum the money? Enter exit to exit.");
-        String command = input.nextLine();
-
-        switch (command.toLowerCase().strip()) {
-            case "convert":
-                return "convert";
-            case "sum":
-                return "sum";
-            case "exit":
-                return "exit";
-            default:
-            {
-                System.out.println("Invalid Input Please try again!");
-                return menu();
-            }
-        }
-    }
-
-    public static void driver() {
-        while (true) {
-            String todo = menu();
-            if (todo.equals("convert")) {
-                CurrenciesIndex from = fromCurrency();
-                CurrenciesIndex to = toCurrency();
-                double amount = amountToConvert(from, to);
-                convert(from, to, amount);
-            } else if (todo.equals("sum")) {
-                sum();
-            } else if (todo.equals("exit")) {
-                return;
-            }
-
-            String command = "Would you like to make another conversion or Sum? Y or N";
-            boolean yesNo = yesOrNo(command);
-            if (!yesNo) {
-                return;
-            }
-
-            input.nextLine();
-        }
-    }
-
-    public static void main(String[] args) {
-
-        System.out.println(showGreeting());
-        accVerification(whoAreYou());
-        System.out.println(showExitGreeting());
-    }
-
-    public static CurrenciesIndex findIndex(String string) {
-        switch (string.toLowerCase()) {
-            case "usd":
-                return CurrenciesIndex.USD;
-            case "aud":
-                return CurrenciesIndex.AUD;
-            case "euro":
-                return CurrenciesIndex.EURO;
-            case "pound":
-                return CurrenciesIndex.POUND;
-            case "sgd":
-                return CurrenciesIndex.SGD;
-            default:
-                System.out.println("Please select a valid currency!");
-                return null;
-        }
-    }
-
-    enum CurrenciesIndex {
-        USD(0),
-        AUD(1),
-        EURO(2),
-        POUND(3),
-        SGD(4);
-
-        private int idx;
-
-        CurrenciesIndex(int i) {
-            idx = i;
-        }
-
-        public int getIdx() {
-            return idx;
-        }
-    }
 }
