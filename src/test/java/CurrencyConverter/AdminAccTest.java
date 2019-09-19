@@ -111,5 +111,26 @@ class AdminAccTest {
         outContent.toString());
   }
 
+  @Test
+  public void adminAccExitAfterCheckRate(){
+    String s = "check rate\nconvert\nusd\naud\n1\nn\nexit";
+    ByteArrayInputStream in = new ByteArrayInputStream(s.getBytes());
+    System.setIn(in);
+    App.input = new Scanner(System.in);
+
+    App.adminAcc();
+
+    assertEquals(
+            "What do you want to do? (Check Rate / Update Currency / exit)" + System.lineSeparator() +
+                    "Would you like to convert or sum the money? Enter exit to exit." + System.lineSeparator() +
+                    "Select From Currency: (USD, AUD, EURO, POUND, SGD)[CASE INSENSITIVE] " + System.lineSeparator() +
+                    "Select To Currency: (USD, AUD, EURO, POUND, SGD)[CASE INSENSITIVE] " + System.lineSeparator() +
+                    "How much USD you want to convert to AUD?" + System.lineSeparator() +
+                    "1.00 USD is 1.46 AUD!\n" + System.lineSeparator() +
+                    "Would you like to make another conversion or Sum? Y or N" + System.lineSeparator() +
+                    "What do you want to do? (Check Rate / Update Currency / exit)" + System.lineSeparator(),
+            outContent.toString());
+  }
+  
 
 }
