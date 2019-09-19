@@ -55,9 +55,9 @@ class SumTest {
                         + System.lineSeparator()
                         + "Enter the 3 currency and the amount"
                         + System.lineSeparator()
-                        + "Enter the currency would like to convert to:\nSelect To Currency: (USD, AUD, EURO, POUND, SGD)[CASE INSENSITIVE] "
+                        + "Enter the currency you would like to convert to:\nSelect To Currency: (USD, AUD, EURO, POUND, SGD)[CASE INSENSITIVE] "
                         + System.lineSeparator()
-                        + "Answer is 4.87 AUD"
+                        + "Answer is 4.87"
                         + System.getProperty("line.separator"),
                 outContent.toString());
     }
@@ -97,9 +97,42 @@ class SumTest {
                         + System.lineSeparator()
                         + "Enter the 2 currency and the amount"
                         + System.lineSeparator()
-                        + "Enter the currency would like to convert to:\nSelect To Currency: (USD, AUD, EURO, POUND, SGD)[CASE INSENSITIVE] "
+                        + "Enter the currency you would like to convert to:\nSelect To Currency: (USD, AUD, EURO, POUND, SGD)[CASE INSENSITIVE] "
                         + System.lineSeparator()
-                        + "Answer is 307.00 AUD"
+                        + "Answer is 307.0"
+                        + System.getProperty("line.separator"),
+                outContent.toString());
+    }
+
+    @Test
+    void testSum3() {
+        String data1 = "0\n4\n-1\n3\nusd 1\neuro 1\npound\npound 1\naud";
+        InputStream stdin = System.in;
+        System.setIn(new ByteArrayInputStream(data1.getBytes()));
+        App.input = new Scanner(System.in);
+        App.sum();
+
+        assertEquals("How many currencies you want to sum up? "
+                        + System.lineSeparator()
+                        + "You have entered an invalid number\nPlease try again"
+                        + System.lineSeparator()
+                        + "The maximum number you can sum is 3\nPlease enter again"
+                        + System.lineSeparator()
+                        + "You have entered an invalid number\nPlease try again"
+                        + System.lineSeparator()
+                        + "Enter the 1 currency and the amount"
+                        + System.lineSeparator()
+                        + "Enter the 2 currency and the amount"
+                        + System.lineSeparator()
+                        + "Enter the 3 currency and the amount"
+                        + System.lineSeparator()
+                        + "Invalid input, Please provide with a Currency and Amount!"
+                        + System.lineSeparator()
+                        + "Enter the 3 currency and the amount"
+                        + System.lineSeparator()
+                        + "Enter the currency you would like to convert to:\nSelect To Currency: (USD, AUD, EURO, POUND, SGD)[CASE INSENSITIVE] "
+                        + System.lineSeparator()
+                        + "Answer is 4.87"
                         + System.getProperty("line.separator"),
                 outContent.toString());
     }
