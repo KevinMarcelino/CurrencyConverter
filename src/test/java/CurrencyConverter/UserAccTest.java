@@ -15,22 +15,21 @@ class UserAccTest {
   private final PrintStream originalOut = System.out;
   private final PrintStream originalErr = System.err;
 
-
   @BeforeEach
-  public void before(){
+  public void before() {
     System.setOut(new PrintStream(outContent));
     System.setErr(new PrintStream(errContent));
   }
 
   @AfterEach
-  public void after(){
+  public void after() {
     System.setIn(System.in);
     System.setOut(originalOut);
     System.setErr(originalErr);
   }
 
   @Test
-  public void userAccExitTest(){
+  public void userAccExitTest() {
     String s = "exit";
     ByteArrayInputStream in = new ByteArrayInputStream(s.getBytes());
     System.setIn(in);
@@ -44,7 +43,7 @@ class UserAccTest {
   }
 
   @Test
-  public void userAccCheckRateTest(){
+  public void userAccCheckRateTest() {
     String s = "check rate\nexit\n\nexit";
     ByteArrayInputStream in = new ByteArrayInputStream(s.getBytes());
     System.setIn(in);
@@ -53,14 +52,17 @@ class UserAccTest {
     App.userAcc();
 
     assertEquals(
-        "What do you want to do? (Check Rate / exit)" + System.lineSeparator() +
-            "Would you like to convert or sum the money? Enter exit to exit." + System.lineSeparator() +
-            "What do you want to do? (Check Rate / exit)" + System.lineSeparator(),
+        "What do you want to do? (Check Rate / exit)"
+            + System.lineSeparator()
+            + "Would you like to convert or sum the money? Enter exit to exit."
+            + System.lineSeparator()
+            + "What do you want to do? (Check Rate / exit)"
+            + System.lineSeparator(),
         outContent.toString());
   }
 
   @Test
-  public void userAccInvalidInputTest(){
+  public void userAccInvalidInputTest() {
     String s = "I'm Invalid\nI'm Invalid\nHELLLOOO\nexit";
     ByteArrayInputStream in = new ByteArrayInputStream(s.getBytes());
     System.setIn(in);
@@ -69,18 +71,25 @@ class UserAccTest {
     App.userAcc();
 
     assertEquals(
-        "What do you want to do? (Check Rate / exit)" + System.lineSeparator() +
-            "Invalid input" + System.lineSeparator() +
-            "What do you want to do? (Check Rate / exit)" + System.lineSeparator() +
-            "Invalid input" + System.lineSeparator() +
-            "What do you want to do? (Check Rate / exit)" + System.lineSeparator() +
-            "Invalid input" + System.lineSeparator() +
-            "What do you want to do? (Check Rate / exit)" + System.lineSeparator(),
+        "What do you want to do? (Check Rate / exit)"
+            + System.lineSeparator()
+            + "Invalid input"
+            + System.lineSeparator()
+            + "What do you want to do? (Check Rate / exit)"
+            + System.lineSeparator()
+            + "Invalid input"
+            + System.lineSeparator()
+            + "What do you want to do? (Check Rate / exit)"
+            + System.lineSeparator()
+            + "Invalid input"
+            + System.lineSeparator()
+            + "What do you want to do? (Check Rate / exit)"
+            + System.lineSeparator(),
         outContent.toString());
   }
 
   @Test
-  public void userAccCombinationTest(){
+  public void userAccCombinationTest() {
     String s = "check rate\nexit\n\nI'm Invalid\nexit";
     ByteArrayInputStream in = new ByteArrayInputStream(s.getBytes());
     System.setIn(in);
@@ -89,14 +98,16 @@ class UserAccTest {
     App.userAcc();
 
     assertEquals(
-        "What do you want to do? (Check Rate / exit)" + System.lineSeparator() +
-            "Would you like to convert or sum the money? Enter exit to exit." + System.lineSeparator() +
-            "What do you want to do? (Check Rate / exit)" + System.lineSeparator() +
-            "Invalid input" + System.lineSeparator() +
-            "What do you want to do? (Check Rate / exit)" + System.lineSeparator()
-        ,
+        "What do you want to do? (Check Rate / exit)"
+            + System.lineSeparator()
+            + "Would you like to convert or sum the money? Enter exit to exit."
+            + System.lineSeparator()
+            + "What do you want to do? (Check Rate / exit)"
+            + System.lineSeparator()
+            + "Invalid input"
+            + System.lineSeparator()
+            + "What do you want to do? (Check Rate / exit)"
+            + System.lineSeparator(),
         outContent.toString());
   }
-
-
 }
