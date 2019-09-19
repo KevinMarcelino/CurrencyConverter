@@ -57,7 +57,7 @@ class SumTest {
                         + System.lineSeparator()
                         + "Enter the currency would like to convert to:\nSelect To Currency: (USD, AUD, EURO, POUND, SGD)[CASE INSENSITIVE] "
                         + System.lineSeparator()
-                        + "Answer is 4.87"
+                        + "Answer is 4.87 AUD"
                         + System.getProperty("line.separator"),
                 outContent.toString());
     }
@@ -99,7 +99,7 @@ class SumTest {
                         + System.lineSeparator()
                         + "Enter the currency would like to convert to:\nSelect To Currency: (USD, AUD, EURO, POUND, SGD)[CASE INSENSITIVE] "
                         + System.lineSeparator()
-                        + "Answer is 307.0"
+                        + "Answer is 307.00 AUD"
                         + System.getProperty("line.separator"),
                 outContent.toString());
     }

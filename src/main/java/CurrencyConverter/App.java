@@ -39,7 +39,7 @@ public class App {
         String identity;
         while (true) {
             System.out.println("Who are you? (ADMIN / USER)");
-            identity = input.nextLine();
+            identity = input.nextLine().strip();
             if (identity.toLowerCase().equals("admin") || identity.toLowerCase().equals("user")) {
                 break;
             } else {
@@ -60,7 +60,7 @@ public class App {
     public static void updateCurrency() {
         while (true) {
             System.out.println("Select From Currency: (USD, AUD, EURO, POUND, SGD)[CASE INSENSITIVE]");
-            String stringFrom = input.nextLine();
+            String stringFrom = input.nextLine().strip();
 
             if (stringFrom.toLowerCase().equals("exit")) {
                 return;
@@ -127,7 +127,7 @@ public class App {
         String adminOption;
         while (true) {
             System.out.println("What do you want to do? (Check Rate / Update Currency / exit)");
-            adminOption = input.nextLine();
+            adminOption = input.nextLine().strip();
             if (adminOption.toLowerCase().equals("exit")) {
                 return;
             } else if (adminOption.toLowerCase().equals("check rate")) {
@@ -144,7 +144,7 @@ public class App {
         String userOption;
         while (true) {
             System.out.println("What do you want to do? (Check Rate / exit)");
-            userOption = input.nextLine();
+            userOption = input.nextLine().strip();
             if (userOption.toLowerCase().equals("exit")) {
                 return;
             } else if (userOption.toLowerCase().equals("check rate")) {
@@ -169,7 +169,7 @@ public class App {
         do {
             try {
                 x = input.nextInt();
-                input.nextLine();
+                input.nextLine().strip();
                 if (x > 3) {
                     System.out.println("The maximum number you can sum is 3\nPlease enter again");
                 } else if (x <= 0) {
@@ -180,7 +180,7 @@ public class App {
                 input.nextLine();
                 System.out.println("You must input a number\nPlease try again");
             }
-        } while (x > 3 | x < 0);
+        } while (x > 3 | x <= 0);
 
         for (int i = 0; i < x; i++) {
             CurrenciesIndex currenciesIndex = null;
@@ -218,7 +218,7 @@ public class App {
         CurrenciesIndex toCurrency = toCurrency();
 
         double answer = sumHelper(sumList, toCurrency);
-        System.out.println("Answer is " + answer);
+        System.out.println(String.format("Answer is %.2f %s" , answer,toCurrency));
         return answer;
     }
 
@@ -239,7 +239,7 @@ public class App {
         CurrenciesIndex fromCurrency;
         do {
             System.out.println("Select From Currency: (USD, AUD, EURO, POUND, SGD)[CASE INSENSITIVE] ");
-            String inputString = input.nextLine();
+            String inputString = input.nextLine().strip();
 
             if (inputString.toLowerCase().contains("exit")) {
                 return null;
@@ -256,7 +256,7 @@ public class App {
         CurrenciesIndex fromCurrency;
         do {
             System.out.println("Select To Currency: (USD, AUD, EURO, POUND, SGD)[CASE INSENSITIVE] ");
-            String inputString = input.nextLine();
+            String inputString = input.nextLine().strip();
 
             if (inputString.toLowerCase().contains("exit")) {
                 return null;
