@@ -93,11 +93,8 @@ public class App {
                             "Current rate is %.2f. What is the new rate from %s to %s ?",
                             rates[from.getIdx()][to.getIdx()], from, to));
 
-            double newRate = amountIntakerValidator(false); // input.nextDouble();
+            double newRate = validInputTester();
 
-            while (newRate <= 0) {
-                newRate = amountIntakerValidator(true);
-            }
             rates[from.getIdx()][to.getIdx()] = newRate;
             rates[to.getIdx()][from.getIdx()] = 1 / newRate;
             System.out.println(String.format("The rate from %s to %s is now %.2f", from, to, newRate));
@@ -109,6 +106,28 @@ public class App {
             }
             input.nextLine();
         }
+    }
+    public static double validInputTester() {
+        String amount;
+        double d = -1;
+        boolean notNum = false;
+        while(true) {
+            amount = input.nextLine();
+            try {
+                d = Double.parseDouble(amount);
+            } catch (Exception e) {
+                notNum = true;
+            }
+            if(notNum){
+                System.out.println("You must provided valid number!");
+                notNum = false;
+            }else if(!notNum && d<= 0){
+                System.out.println("Invalid amount provided, try again!");
+            }else{
+                break;
+            }
+        }
+        return d;
     }
 
     public static boolean yesOrNo(String command) {
@@ -285,26 +304,11 @@ public class App {
         return fromCurrency;
     }
 
-    public static double amountIntakerValidator(boolean showErrorMessage) {
-        if (showErrorMessage) {
-            System.out.println("Invalid amount entered. Try again:");
-        }
-
-        while (!input.hasNextDouble()) {
-            System.out.println("Invalid amount provided, try again!");
-            input.nextLine();
-        }
-        return input.nextDouble();
-    }
 
     public static double amountToConvert(CurrenciesIndex from, CurrenciesIndex to) {
         System.out.println(String.format("How much %s you want to convert to %s?", from, to));
 
-        double amount = amountIntakerValidator(false);
-
-        while (amount < 0) {
-            amount = amountIntakerValidator(true);
-        }
+        double amount = validInputTester();
 
         return amount;
     }
