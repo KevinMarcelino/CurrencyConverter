@@ -41,7 +41,7 @@ class UserAccTest {
 
   @Test
   public void userAccCheckRateTest(){
-    String s = "check rate\nexit\n\nexit";
+    String s = "check rate\nexit\nexit";
     ByteArrayInputStream in = new ByteArrayInputStream(s.getBytes());
     System.setIn(in);
     App.input = new Scanner(System.in);
@@ -77,7 +77,7 @@ class UserAccTest {
 
   @Test
   public void userAccCombinationTest(){
-    String s = "check rate\nexit\n\nI'm Invalid\nexit";
+    String s = "check rate\nexit\nI'm Invalid\nexit";
     ByteArrayInputStream in = new ByteArrayInputStream(s.getBytes());
     System.setIn(in);
     App.input = new Scanner(System.in);
