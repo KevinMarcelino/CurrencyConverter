@@ -1,5 +1,6 @@
 package CurrencyConverter;
 
+import java.io.ByteArrayInputStream;
 import java.util.*;
 
 public class App {
@@ -281,7 +282,7 @@ public class App {
             } else if (inputString.toLowerCase().contains("sum")) {
 
             }
-            fromCurrency = findIndex(inputStringstrip());
+            fromCurrency = findIndex(inputString.strip());
         } while (fromCurrency == null);
 
         return fromCurrency;
@@ -336,7 +337,7 @@ public class App {
             }
         }
     }
-//  This is the driver
+
     public static void driver() {
         while (true) {
             String todo = menu();
