@@ -138,6 +138,15 @@ class SumTest {
     }
 
     @Test
+    void testSum4() {
+        String data1 = "1\nusd 1\nexit";
+        InputStream stdin = System.in;
+        System.setIn(new ByteArrayInputStream(data1.getBytes()));
+        App.input = new Scanner(System.in);
+        assertNull(App.sum());
+    }
+
+    @Test
     void testSumHelper() {
         List<Pair<App.CurrenciesIndex, Double>> sumList = new ArrayList<>();
         sumList.add(new Pair<>(App.CurrenciesIndex.USD, 10.0));
