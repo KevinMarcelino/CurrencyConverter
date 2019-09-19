@@ -40,7 +40,7 @@ class AdminAccTest {
 
   @Test
   public void adminAccCheckRateTest(){
-    String s = "check rate\nexit\n\nexit";
+    String s = "check rate\nexit\nexit";
     ByteArrayInputStream in = new ByteArrayInputStream(s.getBytes());
     System.setIn(in);
     App.input = new Scanner(System.in);
@@ -56,7 +56,7 @@ class AdminAccTest {
 
   @Test
   public void adminAccUpdateCurrencyTest(){
-    String s = "update currency\nexit\n\nexit";
+    String s = "update currency\nexit\nexit";
     ByteArrayInputStream in = new ByteArrayInputStream(s.getBytes());
     System.setIn(in);
     App.input = new Scanner(System.in);
@@ -92,7 +92,7 @@ class AdminAccTest {
 
   @Test
   public void adminAccCombinationTest(){
-    String s = "check rate\nexit\n\nI'm Invalid\nupdate currency\nexit\n\nexit";
+    String s = "check rate\nexit\nI'm Invalid\nupdate currency\nexit\nexit";
     ByteArrayInputStream in = new ByteArrayInputStream(s.getBytes());
     System.setIn(in);
     App.input = new Scanner(System.in);
