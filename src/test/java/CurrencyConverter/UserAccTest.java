@@ -94,5 +94,24 @@ class UserAccTest {
         outContent.toString());
   }
 
+  @Test
+   public void ifConditionsNullTest(){
+    String s = "check rate\nconvert\npgd\nexit\nexit";
+    ByteArrayInputStream in = new ByteArrayInputStream(s.getBytes());
+    System.setIn(in);
+    App.input = new Scanner(System.in);
+
+    App.userAcc();
+
+    assertEquals(
+            "What do you want to do? (Check Rate / exit)" + System.lineSeparator() +
+                    "Would you like to convert or sum the money? Enter exit to exit." + System.lineSeparator() +
+                    "Select From Currency: (USD, AUD, EURO, POUND, SGD)[CASE INSENSITIVE] " + System.lineSeparator() +
+                    "Please select a valid currency!" + System.lineSeparator() +
+                    "Select From Currency: (USD, AUD, EURO, POUND, SGD)[CASE INSENSITIVE] " + System.lineSeparator()+
+                    "What do you want to do? (Check Rate / exit)" + System.lineSeparator()
+            ,
+            outContent.toString());
+  }
 
 }
