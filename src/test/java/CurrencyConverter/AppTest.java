@@ -151,9 +151,9 @@ class AppTest {
     @Test
     void testSumHelper() {
         List<Pair<App.CurrenciesIndex, Double>> sumList = new ArrayList<>();
-        sumList.add(new Pair<App.CurrenciesIndex, Double>(App.CurrenciesIndex.USD, 10.0));
-        sumList.add(new Pair<App.CurrenciesIndex, Double>(App.CurrenciesIndex.EURO, 10.0));
-        sumList.add(new Pair<App.CurrenciesIndex, Double>(App.CurrenciesIndex.POUND, 10.0));
+        sumList.add(new Pair<>(App.CurrenciesIndex.USD, 10.0));
+        sumList.add(new Pair<>(App.CurrenciesIndex.EURO, 10.0));
+        sumList.add(new Pair<>(App.CurrenciesIndex.POUND, 10.0));
         double sum1 = App.sumHelper(sumList, App.CurrenciesIndex.AUD);
         double sum2 = 48.7;
         assertEquals(sum1, sum2);
@@ -162,9 +162,9 @@ class AppTest {
     @Test
     void testSumHelper2() {
         List<Pair<App.CurrenciesIndex, Double>> sumList = new ArrayList<>();
-        sumList.add(new Pair<App.CurrenciesIndex, Double>(App.CurrenciesIndex.USD, 0.0));
-        sumList.add(new Pair<App.CurrenciesIndex, Double>(App.CurrenciesIndex.EURO, 0.0));
-        sumList.add(new Pair<App.CurrenciesIndex, Double>(App.CurrenciesIndex.SGD, 0.0));
+        sumList.add(new Pair<>(App.CurrenciesIndex.USD, 0.0));
+        sumList.add(new Pair<>(App.CurrenciesIndex.EURO, 0.0));
+        sumList.add(new Pair<>(App.CurrenciesIndex.SGD, 0.0));
         double sum1 = App.sumHelper(sumList, App.CurrenciesIndex.AUD);
         double sum2 = 0.0;
         assertEquals(sum1, sum2);
@@ -173,9 +173,9 @@ class AppTest {
     @Test
     void testSumHelper3() {
         List<Pair<App.CurrenciesIndex, Double>> sumList = new ArrayList<>();
-        sumList.add(new Pair<App.CurrenciesIndex, Double>(App.CurrenciesIndex.USD, 1000.0));
-        sumList.add(new Pair<App.CurrenciesIndex, Double>(App.CurrenciesIndex.AUD, 1000.0));
-        sumList.add(new Pair<App.CurrenciesIndex, Double>(App.CurrenciesIndex.POUND, 1000.0));
+        sumList.add(new Pair<>(App.CurrenciesIndex.USD, 1000.0));
+        sumList.add(new Pair<>(App.CurrenciesIndex.AUD, 1000.0));
+        sumList.add(new Pair<>(App.CurrenciesIndex.POUND, 1000.0));
         double sum1 = App.sumHelper(sumList, App.CurrenciesIndex.EURO);
         double sum2 = 2640;
         assertEquals(sum1, sum2);
